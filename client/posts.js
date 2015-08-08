@@ -21,6 +21,6 @@ Template.addPost.events({
 Template.posts.helpers({
   'post': function(){
     var currentUser = Meteor.userId();
-    return Posts.find({createdBy: currentUser}, {sort: {name: 1}});
+    return Posts.find({createdBy: currentUser}, {sort: {createdAt: -1}});
   }
-})
+});

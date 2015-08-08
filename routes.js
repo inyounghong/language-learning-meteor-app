@@ -22,6 +22,14 @@ Router.route('/', {
   template: 'home'
 });
 
+Router.route('/users/:_id',{
+  name: 'user',
+  template: 'user',
+  data: function(){
+    return Meteor.users.findOne({_id: this.params._id});
+  }
+});
+
 Router.route('/post/:_id', {
   name: 'post',
   template: 'post',
@@ -33,12 +41,13 @@ Router.route('/post/:_id', {
   onBeforeAction: function(){
     var currentUser = Meteor.userId();
     // Check if user is logged in
-    if (currentUser){
-      console.log("logged");
-      this.next();
-    } else{
-      this.render("login");
-    }
+    this.next();
+    // if (currentUser){
+    //   console.log("logged");
+    //   this.next();
+    // } else{
+    //   this.render("login");
+    // }
   },
   waitOn: function(){
     var currentPost = this.params._id;

@@ -10,7 +10,8 @@ Meteor.methods({
     var data = {
       title: postTitle,
       text: postText,
-      createdBy: currentUser
+      createdBy: currentUser,
+      createdAt: new Date()
     }
     if(!currentUser){
       throw new Meteor.Error("not-logged-in", "You aren't logged in");

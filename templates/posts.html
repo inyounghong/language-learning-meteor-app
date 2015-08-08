@@ -1,12 +1,18 @@
 <template name="posts">
+    {{ currentUser._id}}
     <h2>Posts</h2>
     {{> addPost}}
-    <ul>
+    <ul class="list-group">
         {{#each post}}
-            <li>
-                <a href="{{pathFor route='post'}}">{{title}}</a>
-                {{text}}
-            </li>
+            <a href="{{pathFor route='post'}}" class="post list-group-item">
+                <div class="user-image">
+                    <img src="/images/blank_user.png">
+                </div>
+                <div class="info">
+                    <div class="title">{{title}} - {{currentUser.profile.name}}</div>
+                    <div class="text">{{text}}</div>
+                </div>
+            </a>
         {{/each}}
     </ul>
 </template>
