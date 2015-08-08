@@ -1,0 +1,20 @@
+<template name="posts">
+    <h2>Posts</h2>
+    {{> addPost}}
+    <ul>
+        {{#each post}}
+            <li>
+                <a href="{{pathFor route='post'}}">{{title}}</a>
+                {{text}}
+            </li>
+        {{/each}}
+    </ul>
+</template>
+
+<template name="addPost">
+    <form>
+        <input type="text" placeholder="Title" name="postTitle">
+        <input type="text" placeholder="Text" name="postText">
+        <button type="submit">Submit</button>
+    </form>
+</template>

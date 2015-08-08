@@ -1,0 +1,8 @@
+<template name="profile">
+	My profile
+	
+	{{user.emails.[0].address}}
+
+	{{> updateAccount name=user.profile.name email=user.emails.[0].address}}
+
+</template>

@@ -1,0 +1,34 @@
+<template name="postPage">
+    <h2>Tasks: {{name}}</h2>
+    {{> todos}}
+</template>
+
+<template name="todos">
+	<p>{{_id}}</p>
+	{{> addTodo}}
+	<ul>
+		{{#each todo}}
+			<li>{{> todoItem}}</li>
+		{{/each}}
+	</ul>
+	{{>todosCount}}
+</template>
+
+<template name="todoItem">
+	<li class="{{checked}}">
+		<input type="checkbox" {{checked}}>
+		<input type="text" value="{{name}}" name="todoItem">
+		| <a href="#" class="delete-todo">Delete</a>
+	</li>
+</template>
+
+<template name="addTodo">
+    <form>
+        Create a task:
+        <input type="text" placeholder="Type a task here..." name="todoName">
+    </form>
+</template>
+
+<template name="todosCount">
+	<p>{{completedTodos}} / {{totalTodos}} tasks completed</p>
+</template>
