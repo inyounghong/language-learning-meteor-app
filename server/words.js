@@ -8,7 +8,7 @@ Meteor.methods({
             word: word,
             translation: [
                 { trans: translation, users: 1}
-            ] 
+            ]
         }
         // Return wordId
         return Words.insert(data); 
@@ -27,17 +27,30 @@ Meteor.methods({
         }
     },
 
-    'createTranslation': function(wordId){
+    // Create translation
+    'createTranslation': function(wordId, context){
         var currentUser = Meteor.userId();
         var word = Words.findOne(wordId).word;
         //Insert into Translations
         var data = {
             createdBy: currentUser,
             word: word,
-            translationIndex: 0
+            translationIndex: 0,
+            context: context,
+            createdAt: new Date()
         }
 
         return Translations.insert(data);
+    },
+
+    // Delete translation
+    'deleteTranslation': function(translationId) {
+        var currentUser = Meteor.userId();
+        var data = {
+            createdBy: currentUser,
+            _id: translationId
+        }
+        Translations.remove(data);
     }
 
 });

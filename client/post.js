@@ -17,7 +17,8 @@ Template.post.events({
     			} else {
                     // Set translation
     				var translation = res.text[0];
-    				console.log(word + " " + translation);
+
+                    // Display translation
     				$(event.target).prev().text(translation);
 
                     // Word does not exist, create it
@@ -26,7 +27,7 @@ Template.post.events({
                             console.log(err);
                         }
                         console.log("Word did not exist. Created Word: " + word);
-                        Meteor.call('createTranslation', res);
+                        Meteor.call('createTranslation', res, context);
                     });
 
     			}
@@ -35,11 +36,15 @@ Template.post.events({
             // The word exists in the database, so pull that data
             var translation = wordId.translation[0].trans;
             console.log("This word exists in the database with translation: " + translation);
+            
+            // Display translation
             $(event.target).prev().text(translation);
         }
 
+        var context = getContext($(event.target));
+
         // Check if translation exists
-        console.log("Word: " + word + "exists already!");
+        console.log("Word: " + word + " exists in Words already!");
         var translationId = Translations.findOne({word: word});
 
         if (typeof translationId == 'undefined'){
@@ -47,8 +52,8 @@ Template.post.events({
             // If translation doesn't exists 
             // (user hasn't translated that word yet), create it
 
-            console.log("Translation doesn't exist yet");
-            Meteor.call('createTranslation', wordId);
+            console.log("Translation doesn't exist yet. Creating and incrementing");
+            Meteor.call('createTranslation', wordId, context);
             // +1 to users using that translation
             Meteor.call('incrementUsersOnWord', wordId);
         } else{
@@ -98,6 +103,58 @@ Template.post.helpers({
 function clean(word){
     var word = word.replace(/[(),!?'".]/g,'');
     return word;
+}
+
+function endsWithPunctuation(word){
+    var letter = word.slice(-1);
+    return ['.', '!', '"', '?'].indexOf(letter) !== -1
+}
+
+function getContext(element){
+    var context = [];
+    var word = element.text();
+
+    // Grab words before
+    var i = 0;
+    var el = element.parent().prev();
+    while (i < 4 && el.attr("class") == "word-wrap"){
+        if (endsWithPunctuation( el.find(".word").text() )){
+            break;
+        }
+        context.unshift( el.find(".word").text() );
+        el = el.prev();
+        i++;
+    }
+
+    // Add the word itself
+    context.push( "<b>" + word + "</b> ");
+
+    // Grab words after
+    if (!endsWithPunctuation(word)){
+        i = 0;
+        el = element.parent().next();
+        while (i < 4 && el.attr("class") == "word-wrap" ){
+            context.push( el.find(".word").text() );
+            if (endsWithPunctuation( el.find(".word").text() )){
+                break;
+            }
+            el = el.next();
+            i++;
+        }
+    }
+
+    // Shorted array if needed
+    if (context.length > 6){
+        context.shift();
+        context.pop();
+        if (context.length > 6){
+            context.shift();
+        }
+        console.log(context);
+    }
+    var contextStr = context.join(" ");
+    console.log("context is: " + contextStr);
+    return contextStr;
 }
 
 // function yandexCall(text, el, callback){
