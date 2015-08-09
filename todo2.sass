@@ -5,18 +5,26 @@
 
 /* Words */
 
-.word
+.word-wrap
 	display: inline-block
-	padding: 2px 4px
-	margin: 5px -1px
-	font-size: 16px
+	position: relative
 
-	&:hover
-		background: #eee
-		border-radius: (3px)
-		cursor: pointer
+	.word
+		padding: 2px 4px
+		margin: 14px -1px 5px
+		font-size: 16px
+		color: #444
+
+		&:hover
+			background: #eee
+			border-radius: (3px)
+			cursor: pointer
 
 	.translation
+		font-weight: 500
+		font-size: 13px
+		color: #888
+		position: absolute
 
 /* Login Box */
 
@@ -28,6 +36,9 @@
 .btn
 	&.full
 		width: 100%
+
+.form-box
+	max-width: 500px
 
 /* Posts */
 

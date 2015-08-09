@@ -1,5 +1,6 @@
 <template name="posts">
-    {{ currentUser._id}}
+    {{ currentUser._id}} 
+    <a href="{{pathFor route='words'}}">Words</a>
     <h2>Posts</h2>
     {{> addPost}}
     <ul class="list-group">
@@ -18,9 +19,25 @@
 </template>
 
 <template name="addPost">
-    <form>
-        <input type="text" placeholder="Title" name="postTitle">
-        <input type="text" placeholder="Text" name="postText">
-        <button type="submit">Submit</button>
+    <form class="form-horizontal form-box">
+        <div class="form-group">
+            <label for="title" class="col-xs-2 control-label">Title</label>
+            <div class="col-xs-10">
+                <input type="text" id="title" placeholder="Title" class="form-control" name="postTitle" value="{{title}}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="text" class="col-xs-2 control-label">Text</label>
+            <div class="col-xs-10" >
+                <textarea placeholder="Text" id="text" name="postText" class="form-control" value={{text}} required></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-10">
+                <button type="submit">Submit</button>
+            </div>
+        </div>
     </form>
 </template>

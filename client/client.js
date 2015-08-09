@@ -1,4 +1,6 @@
 Meteor.subscribe('posts');
+Meteor.subscribe('translations');
+Meteor.subscribe('words');
 
 Template.todos.helpers({
   'todo': function(){

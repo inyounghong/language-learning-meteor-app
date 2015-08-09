@@ -14,8 +14,10 @@ Router.route('/register', {
     }
   }
 });
+
 Router.route('/login');
 Router.route('/profile');
+Router.route('/words');
 
 Router.route('/', {
   name: 'home',
@@ -30,13 +32,20 @@ Router.route('/users/:_id',{
   }
 });
 
+Router.route('/post/edit/:_id', {
+  name: 'editPost',
+  template: 'addPost',
+  data: function(){
+    return Posts.findOne(this.params._id);
+  }
+});
+
 Router.route('/post/:_id', {
   name: 'post',
   template: 'post',
   data: function(){
     var currentPost = this.params._id;
-    var currentUser = Meteor.userId();
-    return Posts.findOne({ _id: currentPost, createdBy: currentUser});
+    return Posts.findOne({ _id: currentPost});
   },
   onBeforeAction: function(){
     var currentUser = Meteor.userId();

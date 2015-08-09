@@ -1,0 +1,22 @@
+<template name="words">
+	{{ currentUser._id}}
+    <h2>My Words</h2>
+
+    <table class="table table-striped">
+        <thead>
+        	<tr>
+        		<th>Word</th>
+        		<th>Translation</th>
+        	</tr>
+        </thead>
+        <tbody>
+
+	        {{#each translation}}
+	            <tr>
+	            	<td><b>{{word}}</b></td>
+	                <td>{{trans}}</td>
+	            </tr>
+	        {{/each}}
+    	</tbody>
+    </table>
+</template>

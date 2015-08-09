@@ -1,23 +1,23 @@
-Meteor.methods({
-  'createNewPost': function(postTitle, postText){
-    var currentUser = Meteor.userId();
-    check(postTitle, String);
-    check(postText, String);
+var apiCall = function(apiUrl, callback) {
+  try {
+    var response = HTTP.get(apiUrl).data;
+    callback(null, response);
+  }
+  catch (error){
+    callback("error", null);
+  }
+}
 
-    if(postTitle == ""){
-      postTitle = defaultName(currentUser);
-    }
-    var data = {
-      title: postTitle,
-      text: postText,
-      createdBy: currentUser,
-      createdAt: new Date()
-    }
-    if(!currentUser){
-      throw new Meteor.Error("not-logged-in", "You aren't logged in");
-    }
-    return Posts.insert(data);
+Meteor.methods({
+  'yandexCall': function(text) {
+    console.log("here");
+    this.unblock();
+    var APIkey = 'trnsl.1.1.20150613T055546Z.e427180336dd7a33.8c5577f75ca831698eb10dac240a7bfa66bc4620';
+    var apiUrl = 'https://translate.yandex.net/api/v1.5/tr.json/translate?key=' + APIkey + '&lang=de-en&text=' + encodeURIComponent(text) ;
+    var response = Meteor.wrapAsync(apiCall)(apiUrl);
+    return response;
   },
+
 
   'createPostItem': function(todoName, currentPost){
     console.log("here");
@@ -84,26 +84,5 @@ Meteor.methods({
     Todos.remove(data);
   },
 
-  // User account
-  'updateAccount': function(name, email){
-    var currentUser = Meteor.userId();
-    if(!currentUser){
-      throw new Meteor.Error("not-logged-in", "You're not logged-in.");
-    }
-    Meteor.users.update({ _id: currentUser }, {$set: {
-      "profile.name": name, 
-      'emails.0.address': email
-    }});
-    return "done";
-  }
-});
 
-function defaultName(currentUser) {
-  var nextLetter = 'A'
-  var nextName = 'Post ' + nextLetter;
-  while (Posts.findOne({ name: nextName, createdBy: currentUser })) {
-      nextLetter = String.fromCharCode(nextLetter.charCodeAt(0) + 1);
-      nextName = 'Post ' + nextLetter;
-  }
-  return nextName;
-}
+});
