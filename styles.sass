@@ -1,0 +1,158 @@
+=border-radius($radius)
+	border-radius: $radius
+	-moz-border-radius: $radius
+	-webkit-border-radius: $radius
+
+=border-box
+	box-sizing: border-box
+
+/* Globals */
+a:hover, a:focus
+	text-decoration:none
+
+/* General Decor */
+
+.pretty-number
+	background: #659FC1
+	color: #fff
+	+border-radius(10px)
+	font-size: 14px
+	font-weight: 400
+	padding: 3px 10px
+
+/* Navigation */
+.navbar
+	border-radius: 0!important
+	position: fixed
+	top: 0
+
+/* Sidebar */
+
+.sidebar
+	width: 230px
+	background: #eee
+	position: fixed
+	height: 100%
+	padding: 40px 20px 40px 0
+	+border-box
+
+	.heading
+		color: #888
+		font-weight: 600
+		text-transform: uppercase
+		margin-bottom: 5px
+		margin-left: 30px
+
+	.link
+		display: block
+		padding: 6px 0 6px 30px
+		+border-radius(5px)
+
+		&:hover
+			text-decoration: none
+			background: #ddd
+
+.main-container
+	margin-top: 50px
+	margin-left: 230px
+	padding: 35px 60px
+	position: relative
+	+border-box
+
+/* Reading */
+
+.reading-wrap
+	padding: 0 30px
+	max-width: 800px
+
+#prev-page, #next-page
+	position: absolute
+	top: 0
+	height: 100%
+	+border-box
+	width: 80px
+	padding: 25% 10px
+
+	&:hover
+		background: #f4f4f4
+
+#prev-page
+	left: 0
+
+#next-page
+	right: 0
+
+/* Word List */
+.tab-wrap
+	margin-bottom: 20px
+	
+	.tab
+		display: inline-block
+		font-size: 16px
+		font-weight: 600
+		padding: 10px 10px
+		cursor: pointer
+		+border-radius(5px)
+		&:hover
+			background: #eee
+
+/* Reading Words */
+
+.word-wrap
+	display: inline-block
+	position: relative
+
+	.word
+		padding: 2px 4px
+		margin: 14px -1px 5px
+		font-size: 16px
+		color: #444
+
+		&:hover
+			background: #eee
+			border-radius: (3px)
+			cursor: pointer
+
+		&.selected
+			font-weight: 500
+
+	.translation
+		font-weight: 500
+		font-size: 13px
+		color: #888
+		position: absolute
+
+/* Login Box */
+
+.login-box
+	max-width: 300px
+
+/* Forms */
+
+.btn
+	&.full
+		width: 100%
+
+.form-box
+	max-width: 500px
+
+/* Posts */
+
+.post
+
+	.info
+		margin-left: 70px
+
+		.title
+			font-weight: 500
+
+
+
+.user-image
+	position: absolute
+	height: 50px
+	width: 50px
+
+	img
+		max-width: 100%
+		+border-radius(100%)

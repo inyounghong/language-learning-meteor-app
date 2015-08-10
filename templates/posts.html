@@ -1,19 +1,27 @@
 <template name="posts">
-    {{ currentUser._id}} 
-    <a href="{{pathFor route='words'}}">Words</a>
-    <h2>Posts</h2>
-    {{> addPost}}
+    
     <ul class="list-group">
         {{#each post}}
-            <a href="{{pathFor route='post'}}" class="post list-group-item">
+            
+            <a href="{{pathFor route='post'}}?page={{page}}" class="post list-group-item">
+                
                 <div class="user-image">
                     <img src="/images/blank_user.png">
                 </div>
+
                 <div class="info">
-                    <div class="title">{{title}} - {{currentUser.profile.name}}</div>
-                    <div class="text">{{text}}</div>
+                    <div class="title">{{title}}</div>
+                    <div class="text">{{sampleText}}</div>
+                
+                    <div class="details">
+                        <span class="uploaded-by"><a href=""> {{uploadedBy}}</a></span>
+                        <span class="word-count">Word Count: {{wordCount}}</span>
+                        <span class="page-count">Page Count: {{pageCount}}</span>
+                    </div>
+
                 </div>
             </a>
+
         {{/each}}
     </ul>
 </template>

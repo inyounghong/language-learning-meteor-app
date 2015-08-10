@@ -1,6 +1,9 @@
 <template name="words">
 	{{ currentUser._id}}
-    <h2>My Words ({{totalWords}})</h2>
+    <div class="tab-wrap">
+        <a href="{{pathFor route='words'}}" class="tab">New Words <span class="pretty-number">{{totalNewWords}}</span></a>
+        <a href="{{pathFor route='learned'}}" class="tab">Learned Words <span class="pretty-number">{{totalLearnedWords}}</span></a>
+    </div>
 
     <table class="table table-striped">
         <thead>
@@ -8,6 +11,7 @@
         		<th>Word</th>
         		<th>Context</th>
         		<th>Translation</th>
+
         		<th> </th>
         	</tr>
         </thead>
@@ -18,7 +22,10 @@
 	            	<td><b>{{word}}</b></td>
 	            	<td>{{{context}}}</td>
 	                <td>{{trans}}</td>
-	                <td><span class="delete-translation">Delete</span></td>
+	                <td>
+                        <span class="know-translation">{{knowMessage}}</span>
+                        <span class="delete-translation">x</span>
+                    </td>
 	            </tr>
 	        {{/each}}
     	</tbody>

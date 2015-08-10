@@ -1,7 +1,7 @@
 Template.post.events({
 
     // Translates a word
-	'click .word':function(event){
+	'click .unselected':function(event){
 		
 		var word = clean($(event.target).text());
         console.log("Starting translation for word: " + word);
@@ -20,6 +20,7 @@ Template.post.events({
 
                     // Display translation
     				$(event.target).prev().text(translation);
+                    $(event.target).removeClass("unselected").addClass("selected");
 
                     // Word does not exist, create it
                     Meteor.call('createWord', word, translation, function(err, res){
@@ -39,6 +40,7 @@ Template.post.events({
             
             // Display translation
             $(event.target).prev().text(translation);
+            $(event.target).removeClass("unselected").addClass("selected");
         }
 
         var context = getContext($(event.target));
@@ -62,16 +64,29 @@ Template.post.events({
         }
 	},
 
+    // Clicking an already selected words hides the translation
+    'click .selected': function(event){
+        $(event.target).prev().text("");
+        $(event.target).addClass("unselected").removeClass("selected");
+    },
+
 
     // Deletes a post
     'click .delete-post':function(event){
         event.preventDefault();
-        var id = this._id;
+        var id = this.post._id;
         var confirm = window.confirm("Delete this post?");
         if(confirm){
             Meteor.call('deletePost', id);
             Router.go('home');
         }
+    },
+
+
+    // Prevents disabled buttons from being clicked
+    'click .disabled': function(event){
+        console.log("clicked disabled");
+        event.preventDefault();
     }
 
 });
@@ -79,31 +94,106 @@ Template.post.events({
 
 Template.post.helpers({
 
+    'prev': function(){
+        return parseInt(this.page) - 1;
+    },
+
+    'next': function(){
+        return parseInt(this.page) + 1;
+    },
+
+    'prevDisabled': function(){
+        var currentPage = parseInt(this.page);
+        if (currentPage == 1){
+            return 'disabled';
+        }
+        else{
+            return 'enabled';
+        }
+    },
+
+    'nextDisabled': function(){
+
+    },
+
     // Converts text into word divs
     'textAfterLoad': function(){
-        console.log("ere");
-        var post = Posts.findOne(this._id);
-        var text = post.text;
+
+        // Calculate pages
+        var WORDS_PER_PAGE = 150;
+        var start = (parseInt(this.page) - 1) * WORDS_PER_PAGE;
+
+        // End is the smallest: full end or word count
+        var end = Math.min(start + WORDS_PER_PAGE, this.post.wordCount);
+
+        // If on last page, disable next button
+        if (end == this.post.wordCount){
+            console.log("Next page disabled");
+            $('#next-page').attr("class", "pagination disabled");
+        }
+        else{
+            $('#next-page').attr("class", "pagination enabled");
+        }
+
+        // Grab and split text
+        var text = this.post.text;
         var text_array = text.split(" ");
         var text_string = "";
 
-        for (var i = 0; i< text_array.length; i++){
+        // Loop through a page's words
+        for (var i = start; i < end; i++){
             var word = text_array[i];
 
-        	text_string += '<div class="word-wrap">';
-        	text_string += '<div class="translation"></div>'
-        	text_string += '<div class="word">';
-        	text_string += word;
-        	text_string += "</div></div>";
+            // Check if <br> should be added
+            if (containsLineBreaks(word)){
+                word = removeLineBreaks(word);
+                text_string += '<br><br>';
+            }
+            // Continue if word is not empty
+            if (!wordIsEmpty(word)){
+                text_string += createWordElement(word);
+            }
+        	
         }
         return text_string;
     }
 });
 
+// Creates a word element
+function createWordElement(word){
+    var str = '';
+    str += '<div class="word-wrap">';
+    str += '<div class="translation"></div>'
+    str += '<div class="word unselected">';
+    str += word;
+    str += "</div></div>";
+    return str;
+}
+// Cleaning word
+
 function clean(word){
-    var word = word.replace(/[(),!?'".]/g,'');
+    var word = word.replace(/[(),!?'".\[\]~@#$%^&*<>:;}{\\\/}]/g,'');
     return word;
 }
+
+// Returns whether word contains line breaks
+function containsLineBreaks(word){
+    return /\r|\n/.exec(word);
+}
+
+// Returns word without line breaks
+function removeLineBreaks(word){
+    return word.replace(/(\r\n|\n|\r)/gm,"");
+}
+
+// Returns true if word is empty, and should not be displayed
+function wordIsEmpty(word){
+    if (word == '' || word == " "){
+        return true;
+    }
+}
+
+// Making text
 
 function endsWithPunctuation(word){
     var letter = word.slice(-1);

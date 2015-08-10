@@ -1,5 +1,5 @@
 <template name="navigation">
-	<nav class="navbar navbar-inverse">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
 	  <div class="container-fluid">
 	    <!-- Brand and toggle get grouped for better mobile display -->
 	    <div class="navbar-header">
@@ -27,7 +27,8 @@
 	          
 	          
 	          <ul class="dropdown-menu">
-	        		<li><a href="{{pathFor route='profile'}}">Profile</a></li>
+	          		<li><a href="{{pathFor 'users' _id=user._id}}">Profile</a></li>
+	        		<li><a href="{{pathFor route='accountSettings'}}">Settings</a></li>
 	        		<li><a href="#" class="logout">Logout</a></li>
 	          </ul>
 	        </li>

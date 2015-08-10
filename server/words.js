@@ -37,6 +37,7 @@ Meteor.methods({
             word: word,
             translationIndex: 0,
             context: context,
+            learned: false,
             createdAt: new Date()
         }
 
@@ -51,6 +52,15 @@ Meteor.methods({
             _id: translationId
         }
         Translations.remove(data);
-    }
+    },
+
+    'updateLearned': function(isLearned, translationId){
+        var currentUser = Meteor.userId();
+        var data = { 
+          _id: translationId,
+          createdBy: currentUser
+        }
+        Translations.update(data, {$set: {learned: isLearned}});
+    },
 
 });

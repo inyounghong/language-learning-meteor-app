@@ -1,16 +1,23 @@
 <template name="main">
 	{{> navigation }}
-	<div class="container">
+	{{> sidebar }}
+	<div class="main-container">
 		
 		{{> yield }}
 	    <hr />
-	    <p>Copyright &copy; Todos, 2014-2015.</p>
+	    <p>Footer</p>
 	</div>
 </template>
 
 <template name="home">
-    <p>Welcome to the Todos application.</p>
+    <p>Welcome!</p>
+
+    <h2>Posts</h2>
+    {{> addPost}}
+    
     {{> posts }}
+
+
 </template>
 
 

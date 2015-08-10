@@ -1,15 +1,21 @@
 <template name="post">
+	<div class="reading-wrap">
+	    <h2>{{titleText}}</h2>
 
-    <h2>{{title}}</h2>
+	    <div class="action-menu">
+	    	<a href="edit/{{post._id}}" class="btn">Edit</a>
+	    	<a class="btn btn-delete delete-post">Delete</a>
+	    </div>
 
-    <div class="action-menu">
-    	<a href="{{pathFor route='editPost'}}" class="btn">Edit</a>
-    	<a class="btn btn-delete delete-post">Delete</a>
-    </div>
+	    <div class="reading-text">
+	    	{{{textAfterLoad}}}
+	    </div>
 
-    <div class="reading-text">
-    	{{{textAfterLoad}}}
-    </div>
+	    <div class="page">Page: {{page}} Stored: {{post.page}}</div>
+
+	    <a href="?page={{prev}}" id="prev-page" class="pagination {{prevDisabled}}">Back</a>
+	    <a href="?page={{next}}" id="next-page" class="pagination enabled">Next</a>
+	</div>
 
 
 </template>
