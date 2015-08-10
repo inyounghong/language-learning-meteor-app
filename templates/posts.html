@@ -1,35 +1,70 @@
 <template name="posts">
     
     <ul class="list-group">
-        {{#each post}}
-            
-            <a href="{{pathFor route='post'}}?page={{page}}" class="post list-group-item">
-                
-                <div class="user-image">
-                    <img src="/images/blank_user.png">
-                </div>
+        {{# if allPosts}}
+            {{#each allPosts}}
+                {{> postItem}}
+            {{/each}}
 
-                <div class="info">
-                    <div class="title">{{title}}</div>
-                    <div class="text">{{sampleText}}</div>
-                
-                    <div class="details">
-                        <span class="uploaded-by"><a href=""> {{createdBy}}</a></span>
-                        <span class="word-count">Word Count: {{wordCount}}</span>
-                        <span class="page-count">Page Count: {{pageCount}}</span>
-                        <span class="user-count">User Count: {{userCount}}</span>
-                        <!-- <span class="reader-count">Readers: {{readerCount}}</span> -->
-                    </div>
+        {{else}}
 
-                </div>
-            </a>
+            {{#if todayPost}}
+            <div class="panel-header">Today</div>
+            {{/if}}
+            {{#each todayPost}}
+                {{> postItem}}
+            {{/each}}
 
-        {{/each}}
+            {{#if yesterdayPost}}
+            <div class="panel-header">Yesterday</div>
+            {{/if}}
+            {{#each yesterdayPost}}
+                {{> postItem}}
+            {{/each}}
+
+            {{#if oneWeekPost}}
+            <div class="panel-header">One Week Ago</div>
+            {{/if}}
+            {{#each oneWeekPost}}
+                {{> postItem}}
+            {{/each}}
+
+            {{#if oldPost}}
+            <div class="panel-header">Older</div>
+            {{/if}}
+            {{#each oldPost}}
+                {{> postItem}}
+            {{/each}}
+        {{/if}}
     </ul>
 </template>
 
+<template name="postItem">
+    <a href="{{pathFor route='post'}}?page={{page}}" class="post list-group-item">
+        <div class="user-image">
+            <img src="/images/blank_user.png">
+        </div>
+
+        <div class="info">
+            <div class="title">{{title}}</div>
+            <div class="text">{{sampleText}}</div>
+        
+            <div class="details">
+                <span class="uploaded-by"><a href=""> {{createdBy}}</a></span>
+                <span class="word-count">Word Count: {{wordCount}}</span>
+                <span class="page-count">Page Count: {{pageCount}}</span>
+                <span class="user-count">User Count: {{userCount}}</span>
+                <!-- <span class="reader-count">Readers: {{readerCount}}</span> -->
+            </div>
+
+        </div>
+    </a>
+</template>
+
+
 <template name="addPost">
-    <form class="form-horizontal form-box">
+    <button class="toggle-form">+ Add New Text</button>
+    <form class="form-horizontal form-box hidden-form">
         <div class="form-group">
             <label for="title" class="col-xs-2 control-label">Title</label>
             <div class="col-xs-10">

@@ -2,6 +2,8 @@ Template.post.events({
 
     // Translates a word
 	'click .unselected':function(event){
+
+        $(event.target).prev().html("<img src='/images/loading.gif'>");
 		
 		var word = clean($(event.target).text());
         console.log("Starting translation for word: " + word);

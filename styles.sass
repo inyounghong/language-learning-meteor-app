@@ -6,6 +6,13 @@
 =border-box
 	box-sizing: border-box
 
+=small-caps
+	font-weight: 500
+	text-transform: uppercase
+	letter-spacing: .05em
+	color: #888
+	font-size: 12px
+
 /* Globals */
 a:hover, a:focus
 	text-decoration:none
@@ -130,6 +137,9 @@ a:hover, a:focus
 
 /* Forms */
 
+.hidden-form
+	display: none
+
 .btn
 	&.full
 		width: 100%
@@ -138,6 +148,13 @@ a:hover, a:focus
 	max-width: 500px
 
 /* Posts */
+
+.panel-header
+	padding: 8px 15px
+	border: 1px solid #ddd
+	background: #eee
+	margin-top: 20px
+	+small-caps
 
 .post
 

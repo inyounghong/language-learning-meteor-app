@@ -71,7 +71,7 @@ Template.posts.events({
             } else {
                 // Just update the updatedAt record
                 console.log("Updating this post.");
-                Meteor.call('updateReadingList', this._id);
+                Meteor.call('updateReadingList', list._id);
             }
 
             
@@ -79,61 +79,135 @@ Template.posts.events({
     }
 });
 
-
-Template.posts.helpers({
-
-  'post': function(){
-    // If browsing all
-    if (this.all){
-      return Posts.find({}, {sort: {createdAt: -1}});
-    }
-    // If browsing user's own texts
-    var currentUser = Meteor.userId();
-    //return Posts.find({createdBy: currentUser}, {sort: {createdAt: -1}});
-    
-    var readinglists = Readinglists.find({createdBy: currentUser}).fetch();
-    var post_array = [];
-    for (i = 0; i < readinglists.length; i++){
-      var postId = readinglists[i].post;
-      var post = Posts.findOne(postId);
-      post_array.push(post);
-    }
-    console.log(post_array);
-    return post_array;
-
-    // Going to make local Meteor collection
-    // ReadingList = new Mongo.Collection(null);
-    // var users = Posts.find({};
-    // console.log(users);
-    // for (var i = 0; i < users.length; i++){
-    //     ReadingList.insert(users[i]);
-    // }
-    // return ReadingList.find({user: currentUser});
-  },
-
+Template.postItem.helpers({
     'userCount': function(){
         return Readinglists.find({post: this._id}).count();
     },
 
-  'sampleText': function(){
-    var CHARACTER_LIMIT = 200;
-    // Get post
-    var post = Posts.findOne(this._id);
 
-    // Make array of characters
-    var text_array = post.text.split('');
-    var end = Math.min(CHARACTER_LIMIT, text_array.length);
+    'sampleText': function(){
+        var CHARACTER_LIMIT = 200;
+        // Get post
+        var post = Posts.findOne(this._id);
 
-    // Loop through array
-    var text_string = "";
-    for (var i = 0; i < end; i++){
-        text_string += text_array[i];
-    }
-    if (end == CHARACTER_LIMIT){
-      text_string += '...';
-    }
-    return text_string;
-  },
+        // Make array of characters
+        var text_array = post.text.split('');
+        var end = Math.min(CHARACTER_LIMIT, text_array.length);
+
+        // Loop through array
+        var text_string = "";
+        for (var i = 0; i < end; i++){
+            text_string += text_array[i];
+        }
+        if (end == CHARACTER_LIMIT){
+          text_string += '...';
+        }
+        return text_string;
+    },
+})
+
+
+Template.posts.helpers({
+
+    'allPosts': function(){
+
+        // If browsing all, just return all posts
+        if (this.all){
+          return Posts.find({}, {sort: {createdAt: -1}});
+        }
+
+    },
+
+    'todayPost': function(){
+        var currentUser = Meteor.userId();
+
+        // Query for today's posts onlu
+        var readinglists = Readinglists.find(
+            {
+                createdBy: currentUser, 
+                updatedAt: { $gte : new Date(new Date().setHours(0,0,0,0))}
+            }, 
+            {sort: {updatedAt: -1}}).fetch();
+
+        // Push into post_array
+        var post_array = [];
+        for (i = 0; i < readinglists.length; i++){
+            var post = Posts.findOne(readinglists[i].post);
+            post_array.push(post);
+        }
+        return post_array;
+    },
+
+    'yesterdayPost': function(){
+        var currentUser = Meteor.userId();
+
+        // Query for today's posts onlu
+        var readinglists = Readinglists.find(
+            {
+                createdBy: currentUser, 
+                updatedAt: { 
+                    $gte : new Date(new Date().setHours(0,0,0,0) - 86400000),
+                    $lt : new Date(new Date().setHours(0,0,0,0))
+                }
+            }, 
+            {sort: {updatedAt: -1}}).fetch();
+
+        // Push into post_array
+        var post_array = [];
+        for (i = 0; i < readinglists.length; i++){
+            var post = Posts.findOne(readinglists[i].post);
+            post_array.push(post);
+        }
+        return post_array;
+    },
+
+    'oneWeekPost': function(){
+        var currentUser = Meteor.userId();
+
+        // Query for today's posts onlu
+        var readinglists = Readinglists.find(
+            {
+                createdBy: currentUser, 
+                updatedAt: { 
+                    $gte : new Date(new Date().setHours(0,0,0,0) - (86400000 * 7)),
+                    $lt : new Date(new Date().setHours(0,0,0,0) - 86400000)
+                }
+            }, 
+            {sort: {updatedAt: -1}}).fetch();
+
+        // Push into post_array
+        var post_array = [];
+        for (i = 0; i < readinglists.length; i++){
+            var post = Posts.findOne(readinglists[i].post);
+            post_array.push(post);
+        }
+        return post_array;
+    },
+
+    'oldPost': function(){
+        var currentUser = Meteor.userId();
+
+        // Query for today's posts onlu
+        var readinglists = Readinglists.find(
+            {
+                createdBy: currentUser, 
+                updatedAt: { 
+                    $lt : new Date(new Date().setHours(0,0,0,0) - (86400000 * 7)),
+                }
+            }, 
+            {sort: {updatedAt: -1}}).fetch();
+
+        // Push into post_array
+        var post_array = [];
+        for (i = 0; i < readinglists.length; i++){
+            var post = Posts.findOne(readinglists[i].post);
+            post_array.push(post);
+        }
+        return post_array;
+    },
+
+
+
 
   // Post information
 
@@ -142,11 +216,11 @@ Template.posts.helpers({
   //   return user.profile.name;
   // },
 
-  'pageCount': function(){
-    var post = Posts.findOne(this._id);
-    var pageCount = Math.ceil(post.wordCount / 150);
-    return pageCount;
-  }
+    'pageCount': function(){
+        var post = Posts.findOne(this._id);
+        var pageCount = Math.ceil(post.wordCount / 150);
+        return pageCount;
+    }
 
 });
 
@@ -155,3 +229,4 @@ function match(userId, postId){
     var post = Posts.findOne(postId);
     return post.createdBy == userId;
 }
+

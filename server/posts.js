@@ -1,7 +1,7 @@
 Meteor.methods({
 
   'createNewPost': function(postTitle, postText){
-    var currentUser = Meteor.users.findOne(Meteor.userId());
+    var currentUser = Meteor.userId();
     check(postTitle, String);
     check(postText, String);
 
@@ -13,7 +13,7 @@ Meteor.methods({
       text: postText,
       wordCount: getWordCount(postText),
       page: 1,
-      createdBy: currentUser.profile.name,
+      createdBy: currentUser,
       createdAt: new Date()
     }
     if(!currentUser){
@@ -102,7 +102,7 @@ Meteor.methods({
     }
     return Readinglists.update(data, {$set: 
       {
-        createdAt: new Date()
+        updatedAt: new Date()
       }
     });
   }
