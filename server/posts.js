@@ -105,6 +105,13 @@ Meteor.methods({
         updatedAt: new Date()
       }
     });
+  },
+
+  'deleteReadingForPost': function(postId){
+    var data = {
+      post: postId
+    }
+    return Readinglists.remove(data);
   }
 
 });

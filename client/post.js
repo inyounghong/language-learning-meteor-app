@@ -79,8 +79,14 @@ Template.post.events({
         var id = this.post._id;
         var confirm = window.confirm("Delete this post?");
         if(confirm){
-            Meteor.call('deletePost', id);
-            Router.go('home');
+            Meteor.call('deletePost', id, function(err, res){
+                if (!err){
+                    Router.go('home');
+                    Meteor.call('deleteReadingForPost', id);
+                }
+                
+            });
+            
         }
     },
 

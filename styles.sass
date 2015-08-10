@@ -13,6 +13,9 @@
 	color: #888
 	font-size: 12px
 
+$blue: #659FC1
+$accent: #659FC1
+
 /* Globals */
 a:hover, a:focus
 	text-decoration:none
@@ -20,12 +23,21 @@ a:hover, a:focus
 /* General Decor */
 
 .pretty-number
-	background: #659FC1
+	background: $blue
 	color: #fff
 	+border-radius(10px)
 	font-size: 14px
 	font-weight: 400
 	padding: 3px 10px
+
+button
+	background: $accent
+	border: none
+	padding: 8px 15px
+	color: #fff
+	display: inline-block
+	+border-radius(3px)
+
 
 /* Navigation */
 .navbar
@@ -137,8 +149,7 @@ a:hover, a:focus
 
 /* Forms */
 
-.hidden-form
-	display: none
+
 
 .btn
 	&.full
@@ -174,3 +185,40 @@ a:hover, a:focus
 	img
 		max-width: 100%
 		+border-radius(100%)
+
+
+/* Pop */
+
+#overlay
+	background: #000
+	opacity:.4;
+	display: none;
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	z-index:98
+
+.popup
+	display: none
+	background: #fff
+	border: 1px solid #aaa
+	position: fixed
+	z-index: 100
+	top: 15%
+	margin-left: 130px
+	left: 25%
+	width: 50%
+	height: 400px
+	padding: 30px
+	box-shadow: 0px 0px 15px #666
+	+border-box
+	+border-radius(5px)
+
+	&.active
+		display: block
+		
+#addpostform
+	textarea
+		height: 200px
+
+

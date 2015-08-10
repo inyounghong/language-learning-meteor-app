@@ -63,26 +63,64 @@
 
 
 <template name="addPost">
-    <button class="toggle-form">+ Add New Text</button>
-    <form class="form-horizontal form-box hidden-form">
-        <div class="form-group">
-            <label for="title" class="col-xs-2 control-label">Title</label>
-            <div class="col-xs-10">
-                <input type="text" id="title" placeholder="Title" class="form-control" name="postTitle" value="{{title}}">
-            </div>
-        </div>
+    <button class="togglePopup">+ Add New Text</button>
 
-        <div class="form-group">
-            <label for="text" class="col-xs-2 control-label">Text</label>
-            <div class="col-xs-10" >
-                <textarea placeholder="Text" id="text" name="postText" class="form-control" value={{text}} required></textarea>
+    
+    <!-- Popup -->
+    <div class="popup">
+        <form class="form-horizontal" id="addpostform">
+            <div class="form-group">
+                <label for="title" class="col-xs-2 control-label">Title</label>
+                <div class="col-xs-10">
+                    <input type="text" id="title" placeholder="Title" class="form-control" name="postTitle" value="{{title}}">
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-xs-offset-2 col-xs-10">
-                <button type="submit">Submit</button>
+            <div class="form-group">
+                <label for="text" class="col-xs-2 control-label">Text</label>
+                <div class="col-xs-10" >
+                    <textarea placeholder="Text" id="text" name="postText" class="form-control" value={{text}} required></textarea>
+                </div>
             </div>
-        </div>
-    </form>
+
+            <div class="form-group">
+                <div class="col-xs-offset-2 col-xs-10">
+                    <button type="submit" class="submit-form">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+    // Open popup on click
+    $('.togglePopup').on('click', function (e) {
+        console.log("csdf");
+        $('#overlay').show();
+        $('.popup').toggleClass('active');
+
+        // Close popup when clicking outside
+        $(document).bind("click", function(e){
+            if( (notButton(e) && outsideBox(e)) || isSubmit(e)){
+                console.log("hereerer");
+                $('#overlay').toggle();
+                $('.popup').toggleClass('active');
+                $(document).unbind("click");
+            }
+        })
+    });
+
+    function notButton(e){
+        return $(e.target).attr("class") != "togglePopup";
+    }
+
+    function outsideBox(e){
+        return !$(e.target).closest('.popup').length;
+    }
+
+    function isSubmit(e){
+        return $(e.target).attr("class") == "submit-form";
+    }
+    
+
+    </script>
 </template>
