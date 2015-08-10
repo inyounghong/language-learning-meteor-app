@@ -1,10 +1,14 @@
 Meteor.publish('posts', function(){
   var currentUser = this.userId;
-  return Posts.find({ createdBy: currentUser});
+  return Posts.find({});
 });
 
 Meteor.publish('words', function(){
   return Words.find({});
+});
+
+Meteor.publish('readinglists', function(){
+  return Readinglists.find({});
 });
 
 Meteor.publish('translations', function(){

@@ -1,7 +1,7 @@
 Meteor.methods({
 
   'createNewPost': function(postTitle, postText){
-    var currentUser = Meteor.userId();
+    var currentUser = Meteor.users.findOne(Meteor.userId());
     check(postTitle, String);
     check(postText, String);
 
@@ -13,7 +13,7 @@ Meteor.methods({
       text: postText,
       wordCount: getWordCount(postText),
       page: 1,
-      createdBy: currentUser,
+      createdBy: currentUser.profile.name,
       createdAt: new Date()
     }
     if(!currentUser){
@@ -36,6 +36,20 @@ Meteor.methods({
       }
     });
   },
+
+  // 'addUserToPost': function(userId, postId){
+  //   var data = {
+  //     _id: postId
+  //   }
+  //   return Posts.update(data, {$push: 
+  //     {
+  //       users: {
+  //         user: userId,
+  //         updatedAt: new Date()
+  //       }
+  //     }
+  //   });
+  // },
 
   // Updated stored page count
   'updatePostPage': function(postId, page){
@@ -62,6 +76,35 @@ Meteor.methods({
       createdBy: currentUser
     }
     Posts.remove(data);
+  },
+
+  // Reading lists
+
+  'createNewReadingList': function(postId){
+    var currentUser = Meteor.userId();
+
+    var data = {
+      post: postId,
+      page: 1,
+      createdBy: currentUser,
+      updatedAt: new Date()
+    }
+    if(!currentUser){
+      throw new Meteor.Error("not-logged-in", "You aren't logged in");
+    }
+    return Readinglists.insert(data);
+  },
+
+  'updateReadingList': function(postId){
+    var data = {
+      _id: postId,
+      createdBy: Meteor.userId()
+    }
+    return Readinglists.update(data, {$set: 
+      {
+        createdAt: new Date()
+      }
+    });
   }
 
 });

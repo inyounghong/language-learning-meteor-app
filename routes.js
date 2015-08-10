@@ -19,7 +19,11 @@ Router.route('/login');
 Router.route('/accountSettings');
 Router.route('/browse',{
   name: 'browse',
-})
+  data: function(){
+    return {all: true};
+  }
+});
+
 Router.route('/words',{
   data: function(){
     return {learned: false};

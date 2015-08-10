@@ -1,11 +1,13 @@
 <template name="post">
 	<div class="reading-wrap">
-	    <h2>{{titleText}}</h2>
+	    <h2>{{{titleText}}}</h2>
 
+	    {{#if userself}}
 	    <div class="action-menu">
 	    	<a href="edit/{{post._id}}" class="btn">Edit</a>
 	    	<a class="btn btn-delete delete-post">Delete</a>
 	    </div>
+	    {{/if}}
 
 	    <div class="reading-text">
 	    	{{{textAfterLoad}}}

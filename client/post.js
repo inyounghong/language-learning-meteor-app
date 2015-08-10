@@ -94,6 +94,10 @@ Template.post.events({
 
 Template.post.helpers({
 
+    'readerCount': function(){
+
+    },
+
     'prev': function(){
         return parseInt(this.page) - 1;
     },
@@ -156,6 +160,30 @@ Template.post.helpers({
         	
         }
         return text_string;
+    },
+
+    'titleText': function(){
+        var title = this.post.title;
+        var title_array = title.split(" ");
+        var text_string = "";
+
+        for (var i = 0; i < title_array.length; i++){
+            var word = title_array[i];
+
+            // Continue if word is not empty
+            if (!wordIsEmpty(word)){
+                text_string += createWordElement(word);
+            }
+            
+        }
+        return text_string;
+    },
+
+    // Returns true if user is current user
+    'userself': function(){
+        console.log(this.post.createdBy);
+        console.log(Meteor.userId());
+        return this.post.createdBy == Meteor.userId();
     }
 });
 
@@ -172,7 +200,7 @@ function createWordElement(word){
 // Cleaning word
 
 function clean(word){
-    var word = word.replace(/[(),!?'".\[\]~@#$%^&*<>:;}{\\\/}]/g,'');
+    var word = word.replace(/[(),!?".\[\]~@#$%^&*<>:;}{\\\/}]/g,'');
     return word;
 }
 
