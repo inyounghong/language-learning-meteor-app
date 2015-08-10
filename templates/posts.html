@@ -93,6 +93,7 @@
 
     <script>
     // Open popup on click
+
     $('.togglePopup').on('click', function (e) {
         console.log("csdf");
         $('#overlay').show();
@@ -120,7 +121,35 @@
     function isSubmit(e){
         return $(e.target).attr("class") == "submit-form";
     }
-    
+
+
 
     </script>
+</template>
+
+
+<template name="editPost">
+
+    <form class="form-horizontal" >
+        <div class="form-group">
+            <label for="title" class="col-xs-2 control-label">Title</label>
+            <div class="col-xs-10">
+                <input type="text" id="title" placeholder="Title" class="form-control" name="postTitle" value="{{title}}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="text" class="col-xs-2 control-label">Text</label>
+            <div class="col-xs-10" >
+                <textarea placeholder="Text" id="text" name="postText" class="form-control" value={{text}} required></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-10">
+                <button type="submit" class="submit-form">Submit</button>
+            </div>
+        </div>
+    </form>
+
 </template>

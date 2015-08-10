@@ -65,7 +65,7 @@ Router.route('/user/:_id',{
 
 Router.route('/post/edit/:_id', {
   name: 'editPost',
-  template: 'addPost',
+  template: 'editPost',
   data: function(){
     return Posts.findOne(this.params._id);
   }

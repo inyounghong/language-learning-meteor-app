@@ -1,3 +1,26 @@
+Template.editPost.events({
+
+    'submit form': function(event){
+        event.preventDefault();
+
+        var postTitle = $('[name=postTitle]').val();
+        var postText = $('[name=postText]').val();
+
+        // Update existing post
+        var id = this._id;
+        var post = Posts.findOne(id);
+
+        Meteor.call('updatePost', this._id, postTitle, postText, function(error, results){
+            if(error) {
+                console.log(error.reason);
+            } else {
+                Router.go('post', {_id: id}, {query: 'page=' + post.page});
+            }
+        });
+    }
+    
+});
+
 Template.addPost.events({
 
   // Create/Update new post
@@ -8,20 +31,6 @@ Template.addPost.events({
     var postTitle = $('[name=postTitle]').val();
     var postText = $('[name=postText]').val();
 
-    // Updating existing post
-    if (this._id){
-      var id = this._id;
-      var post = Posts.findOne(id);
-
-      Meteor.call('updatePost', this._id, postTitle, postText, function(error, results){
-        if(error) {
-          console.log(error.reason);
-        } else {
-          Router.go('post', {_id: id}, {query: 'page=' + post.page});
-        }
-      });
-
-    } else {
       // Make new Post
 
       Meteor.call('createNewPost', postTitle, postText, function(error, res){
@@ -41,8 +50,6 @@ Template.addPost.events({
           });
         }
       });
-
-    }
 
   }
 });
