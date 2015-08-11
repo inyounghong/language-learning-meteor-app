@@ -38,10 +38,20 @@ Meteor.methods({
             translationIndex: 0,
             context: context,
             learned: false,
-            createdAt: new Date()
+            createdAt: new Date(),
+            tests: 0
         }
 
         return Translations.insert(data);
+    },
+
+    'incrementTests': function(wordId){
+        var currentUser = Meteor.userId();
+        var data = { 
+          _id: wordId,
+          createdBy: currentUser
+        }
+        Translations.update(data, {$inc: {tests: 1}});
     },
 
     // Delete translation

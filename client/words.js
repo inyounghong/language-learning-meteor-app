@@ -31,7 +31,7 @@ Template.words.helpers({
 
  	'totalNewWords': function(){
  		var currentUser = Meteor.userId();
-    	return Translations.find({createdBy: currentUser, learned: this.learned}).count();
+    	return Translations.find({createdBy: currentUser, learned: false}).count();
 	
  	},
 });

@@ -1,9 +1,11 @@
 <template name="words">
-	{{ currentUser._id}}
+
     <div class="tab-wrap">
         <a href="{{pathFor route='words'}}" class="tab">New Words <span class="pretty-number">{{totalNewWords}}</span></a>
         <a href="{{pathFor route='learned'}}" class="tab">Learned Words <span class="pretty-number">{{totalLearnedWords}}</span></a>
     </div>
+
+    <button class="/learn">Flashcards</button>
 
     <table class="table">
         <thead>
@@ -25,6 +27,7 @@
 	                <td>
                         <span class="know-translation">{{knowMessage}}</span>
                         <span class="delete-translation">x</span>
+                        {{tested}}
                     </td>
 	            </tr>
 	        {{/each}}

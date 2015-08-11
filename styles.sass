@@ -170,6 +170,8 @@ button
 
 
 .btn
+	color: #fff
+
 	&.full
 		width: 100%
 
@@ -203,6 +205,39 @@ button
 	img
 		max-width: 100%
 		+border-radius(100%)
+
+/* Flashcards */
+
+.main-left
+	width: 500px
+	display: inline-block
+	vertical-align: top
+	margin-right: 50px
+
+.main-right
+	display: inline-block
+
+.flashcard
+	border: 1px solid #ddd
+	+border-radius(5px)
+	padding: 20px
+	text-align: center
+
+	.flash-word
+		font-size: 40px
+		margin-bottom: 10px
+
+	.flash-context
+		font-style: italic
+		color: #888
+
+
+	.flash-translation
+		font-size: 30px
+		opacity:0
+		margin: 40px 0 50px
+
+	.flash-button
 
 
 /* Pop */

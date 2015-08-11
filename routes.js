@@ -15,6 +15,7 @@ Router.route('/register', {
   }
 });
 
+Router.route('/learn');
 Router.route('/login');
 Router.route('/accountSettings');
 Router.route('/browse',{
