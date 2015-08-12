@@ -1,5 +1,11 @@
 <template name="learn">
+	<!-- Left Side -->
 	<div class="main-left">
+
+		<a href="{{pathFor route='learned'}}">{{learnedWords}} Learned Words</a>
+		/ <a href="{{pathFor route='words'}}">{{totalWords}} Total Words</a> 
+
+		<!-- Start Flashcard -->
 		<div class="flashcard">
 			<div class="flash-word">
 				{{word.word}}
@@ -13,9 +19,20 @@
 			<button class="btn full flash-button" id="translation-button">Translate</button>
 			<div class="mark-learned">I know this!</div>
 		</div>
+
 	</div>
+
+	<!-- Right Side -->
 	<div class="main-right">
-		Right sides
+		<div class="delete-word">Delete Word</div>
+		<div class="more-info">More Info</div>
+
+		<div id="trans-box">
+			<ul id="trans-info">
+			</ul>
+		</div>
+
+		<div id="temp-container"></div>
 	</div>
 
 	<script>

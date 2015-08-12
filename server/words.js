@@ -6,9 +6,7 @@ Meteor.methods({
         // Insert into Words
         var data = {
             word: word,
-            translation: [
-                { trans: translation, users: 1}
-            ]
+            translation: translation
         }
         // Return wordId
         return Words.insert(data); 
@@ -27,15 +25,33 @@ Meteor.methods({
         }
     },
 
+    'addTranslationToWord': function(wordId, trans){
+
+        var data = { 
+          _id: wordId
+        }
+        return Words.update(data, {$push: {alts: trans} } );
+
+    },
+
+    'changeTranslation': function(translationId, trans){
+        var currentUser = Meteor.userId();
+        var data = { 
+          _id: translationId,
+          createdBy: currentUser
+        }
+        Translations.update(data, {$set: {translation: trans}});
+    },
+
     // Create translation
-    'createTranslation': function(wordId, context){
+    'createTranslation': function(wordId, translation, context){
         var currentUser = Meteor.userId();
         var word = Words.findOne(wordId).word;
         //Insert into Translations
         var data = {
             createdBy: currentUser,
             word: word,
-            translationIndex: 0,
+            translation: translation,
             context: context,
             learned: false,
             createdAt: new Date(),

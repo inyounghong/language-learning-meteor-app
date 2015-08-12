@@ -5,7 +5,7 @@
         <a href="{{pathFor route='learned'}}" class="tab">Learned Words <span class="pretty-number">{{totalLearnedWords}}</span></a>
     </div>
 
-    <button class="/learn">Flashcards</button>
+    <a class="btn" href="{{pathFor route='learn'}}">Flashcards</a>
 
     <table class="table">
         <thead>
@@ -19,11 +19,11 @@
         </thead>
         <tbody>
 
-	        {{#each translation}}
+	        {{#each trans}}
 	            <tr>
 	            	<td><b>{{word}}</b></td>
 	            	<td>{{{context}}}</td>
-	                <td>{{trans}}</td>
+	                <td>{{translation}}</td>
 	                <td>
                         <span class="know-translation">{{knowMessage}}</span>
                         <span class="delete-translation">x</span>

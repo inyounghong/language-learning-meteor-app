@@ -1,7 +1,7 @@
 Template.words.helpers({
 
 	// Return unknown words
-	'translation': function(){
+	'trans': function(){
 		var currentUser = Meteor.userId();
 		console.log(this.learned);
 		return Translations.find({createdBy: currentUser, learned: this.learned}, {sort: {createdAt: -1}});
@@ -16,13 +16,7 @@ Template.words.helpers({
 	},
 
 
-	// returns a translation for table
- 	'trans': function(){
- 		index = this.translationIndex;
- 		var word = this.word;
- 		var wordObj = Words.findOne({word: word});
- 		return wordObj.translation[0].trans;
- 	},
+
 
  	'totalLearnedWords': function(){
  		var currentUser = Meteor.userId();

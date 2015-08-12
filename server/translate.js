@@ -8,9 +8,11 @@ var apiCall = function(apiUrl, callback) {
   }
 }
 
+
+
+
 Meteor.methods({
   'yandexCall': function(text) {
-    console.log("here");
     this.unblock();
     var APIkey = 'trnsl.1.1.20150613T055546Z.e427180336dd7a33.8c5577f75ca831698eb10dac240a7bfa66bc4620';
     var apiUrl = 'https://translate.yandex.net/api/v1.5/tr.json/translate?key=' + APIkey + '&lang=de-en&text=' + encodeURIComponent(text) ;
@@ -18,9 +20,19 @@ Meteor.methods({
     return response;
   },
 
+  'infoCall': function(word) {
+    console.log("making the call");
+    this.unblock();
+    var url = 'http://www.collinsdictionary.com/dictionary/german-english/' + encodeURIComponent(word) + '?showCookiePolicy=true';
+    var page = HTTP.get(url).content;
+    // page = page.split('<div class="results">')[1];
+    // page = page.split('<div id="dict-example-sentences"')[0];
+    page = page.split('_main">')[1];
+    page = page.split('<div id="examples_box')[0];
+    return page;
+  },
 
   'createPostItem': function(todoName, currentPost){
-    console.log("here");
     check(todoName, String);
     check(currentPost, String);
 

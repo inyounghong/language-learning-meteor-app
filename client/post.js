@@ -5,65 +5,73 @@ Template.post.events({
 
         $(event.target).prev().html("<img src='/images/loading.gif'>");
 		
+        // Get actual word
 		var word = clean($(event.target).text());
         console.log("Starting translation for word: " + word);
 
-        // Check database for word
-        var wordId = Words.findOne({word: word});
-
-        if(typeof wordId == 'undefined'){
-            // If word does not exist, yandex it
-    		Meteor.call('yandexCall', word, function(err, res){
-    			if (err){
-    				console.log("error");
-    			} else {
-                    // Set translation
-    				var translation = res.text[0];
-
-                    // Display translation
-    				$(event.target).prev().text(translation);
-                    $(event.target).removeClass("unselected").addClass("selected");
-
-                    // Word does not exist, create it
-                    Meteor.call('createWord', word, translation, function(err, res){
-                        if (err){
-                            console.log(err);
-                        }
-                        console.log("Word did not exist. Created Word: " + word);
-                        Meteor.call('createTranslation', res, context);
-                    });
-
-    			}
-    		});
-        } else {
-            // The word exists in the database, so pull that data
-            var translation = wordId.translation[0].trans;
-            console.log("This word exists in the database with translation: " + translation);
-            
-            // Display translation
-            $(event.target).prev().text(translation);
-            $(event.target).removeClass("unselected").addClass("selected");
-        }
-
         var context = getContext($(event.target));
 
+        var translation = "";
+
         // Check if translation exists
-        console.log("Word: " + word + " exists in Words already!");
         var translationId = Translations.findOne({word: word});
 
         if (typeof translationId == 'undefined'){
 
-            // If translation doesn't exists 
-            // (user hasn't translated that word yet), create it
+            // If translation does't exists
 
-            console.log("Translation doesn't exist yet. Creating and incrementing");
-            Meteor.call('createTranslation', wordId, context);
-            // +1 to users using that translation
-            Meteor.call('incrementUsersOnWord', wordId);
+            console.log("Translation doesn't exist yet. Checking if word exists.");
+
+            // Check database for word
+            var wordId = Words.findOne({word: word});
+
+            if(typeof wordId == 'undefined'){
+                // If word does not exist, yandex it
+                console.log("Word does not exist. Making Yandex CAll");
+                
+                Meteor.call('yandexCall', word, function(err, res){
+                    if (err){
+                        console.log("error");
+                    } else {
+                        // Set translation for Word
+                        translation = res.text[0];
+
+                        // Word does not exist, create it
+                        Meteor.call('createWord', word, translation, function(err, wordId){
+                            if (err){
+                                console.log(err);
+                            }
+                            console.log("Word did not exist. Created Word: " + word);
+                        });
+
+                    }
+                });
+            } else {
+                // The word exists in the database, so pull that data (there is no user data to pull from)
+                translation = wordId.translation[0].trans;
+                console.log("This word exists in the database with translation: " + translation);
+                
+            }
+
+            // No translation exists, so create it
+            console.log("Creating Translation");
+            Meteor.call('createTranslation', wordId, translation, context);
+
+
         } else{
-            // Translation already exists
+            // Translation already exists, which means word exists too.
             console.log("Translation already exist for this user");
+
+            // Just pull users' translation data out
+            console.log(translation);
+            translation = translationId.translation;
         }
+
+        // Display translation
+        console.log("Trying to display translation" + translation);
+        $(event.target).prev().text(translation);
+        $(event.target).removeClass("unselected").addClass("selected");
+
 	},
 
     // Clicking an already selected words hides the translation
@@ -240,14 +248,20 @@ function getContext(element){
     var context = [];
     var word = element.text();
 
+    // Check end before and after
+    var endBefore = false;
+    var endAfter = false;
+
     // Grab words before
     var i = 0;
     var el = element.parent().prev();
     while (i < 4 && el.attr("class") == "word-wrap"){
         if (endsWithPunctuation( el.find(".word").text() )){
+            endBefore = true;
             break;
         }
         context.unshift( el.find(".word").text() );
+        // Add ... if interrupted
         el = el.prev();
         i++;
     }
@@ -262,6 +276,7 @@ function getContext(element){
         while (i < 4 && el.attr("class") == "word-wrap" ){
             context.push( el.find(".word").text() );
             if (endsWithPunctuation( el.find(".word").text() )){
+                endAfter = true;
                 break;
             }
             el = el.next();
@@ -269,16 +284,17 @@ function getContext(element){
         }
     }
 
-    // Shorted array if needed
-    if (context.length > 6){
+    var contextStr = context.join(" ")
+
+    if (!endBefore){
         context.shift();
-        context.pop();
-        if (context.length > 6){
-            context.shift();
-        }
-        console.log(context);
+        contextStr = "... " + contextStr;
     }
-    var contextStr = context.join(" ");
+    if (!endAfter) {
+        context.pop();
+        contextStr = contextStr + " ...";
+    }
+
     console.log("context is: " + contextStr);
     return contextStr;
 }
