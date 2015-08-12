@@ -42,6 +42,17 @@ Template.post.events({
                                 console.log(err);
                             }
                             console.log("Word did not exist. Created Word: " + word);
+                            console.log("response is" + wordId);
+                            wordId = wordId;
+
+                            // This can't move: No translation exists, so create it
+                            console.log("Creating Translation" + wordId + translation + context);
+                            Meteor.call('createTranslation', wordId, translation, context);
+
+                            // Display translation
+                            console.log("Trying to display translation" + translation);
+                            $(event.target).prev().text(translation);
+                            $(event.target).removeClass("unselected").addClass("selected");
                         });
 
                     }
@@ -51,12 +62,15 @@ Template.post.events({
                 translation = wordId.translation[0].trans;
                 console.log("This word exists in the database with translation: " + translation);
                 
+                // No translation exists, so create it
+                console.log("Creating Translation" + wordId + translation + context);
+                Meteor.call('createTranslation', wordId, translation, context);
+
+                // Display translation
+                console.log("Trying to display translation" + translation);
+                $(event.target).prev().text(translation);
+                $(event.target).removeClass("unselected").addClass("selected");
             }
-
-            // No translation exists, so create it
-            console.log("Creating Translation");
-            Meteor.call('createTranslation', wordId, translation, context);
-
 
         } else{
             // Translation already exists, which means word exists too.
@@ -65,12 +79,14 @@ Template.post.events({
             // Just pull users' translation data out
             console.log(translation);
             translation = translationId.translation;
+
+            // Display translation
+            console.log("Trying to display translation" + translation);
+            $(event.target).prev().text(translation);
+            $(event.target).removeClass("unselected").addClass("selected");
         }
 
-        // Display translation
-        console.log("Trying to display translation" + translation);
-        $(event.target).prev().text(translation);
-        $(event.target).removeClass("unselected").addClass("selected");
+        
 
 	},
 
@@ -109,6 +125,37 @@ Template.post.events({
 
 
 Template.post.helpers({
+
+    'selected': function(){
+        // Set starting select
+        var startLang = this.post.language;
+        document.getElementById(startLang).attr("selected", true);
+
+        // Set ending select
+        var readingList = Readinglists.findOne({
+            createdBy: Meteor.userId(),
+            post: this.post._id
+        });
+        console.log(readingList);
+
+        var endLang = readingList.language;
+        $('#' + endLang).attr("selected", true);
+
+        console.log(startLang + endLang);
+    },
+
+
+    'endLang': function(){
+        // Set ending select
+        var readingList = Readinglists.findOne({
+            createdBy: Meteor.userId(),
+            post: this.post._id
+        });
+        console.log(readingList);
+
+        var endLang = readingList.language;
+        return endLang;
+    },
 
     'readerCount': function(){
 

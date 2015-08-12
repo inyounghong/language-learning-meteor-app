@@ -61,34 +61,60 @@
     </a>
 </template>
 
+<template name="postForm">
+    <!-- Post Form Only -->
+    <form class="form-horizontal" id="addpostform">
+        <div class="form-group">
+            <label for="title" class="col-xs-2 control-label">Title</label>
+            <div class="col-xs-10">
+                <input type="text" id="title" placeholder="Title" class="form-control" name="postTitle" value="{{title}}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="text" class="col-xs-2 control-label">Text</label>
+            <div class="col-xs-10" >
+                <textarea placeholder="Text" id="text" name="postText" class="form-control" value={{text}} required></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-2 control-label">Language</label>
+            <div class="col-xs-5" >
+                From 
+                {{ > languageSelect name='startlanguage'}}
+            </div>
+            <div class="col-xs-5" >
+                To 
+                {{ > languageSelect name='endlanguage'}}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-10">
+                <button type="submit" class="submit-form">Submit</button>
+            </div>
+        </div>
+    </form>
+</template>
+
+<template name="languageSelect">
+    <select class="form-control" name="{{name}}" id="{{name}}">
+        <option value="en" id="en">English</option>
+        <option value="de" id="de">German</option>
+        <option value="sp" id="sp">Spanish</option>
+    </select>
+</template>
+
 
 <template name="addPost">
     <button class="togglePopup">+ Add New Text</button>
-
+        
     
     <!-- Popup -->
     <div class="popup">
-        <form class="form-horizontal" id="addpostform">
-            <div class="form-group">
-                <label for="title" class="col-xs-2 control-label">Title</label>
-                <div class="col-xs-10">
-                    <input type="text" id="title" placeholder="Title" class="form-control" name="postTitle" value="{{title}}">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="text" class="col-xs-2 control-label">Text</label>
-                <div class="col-xs-10" >
-                    <textarea placeholder="Text" id="text" name="postText" class="form-control" value={{text}} required></textarea>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-xs-offset-2 col-xs-10">
-                    <button type="submit" class="submit-form">Submit</button>
-                </div>
-            </div>
-        </form>
+        {{>postForm}}
+       
     </div>
 
     <script>
@@ -130,26 +156,6 @@
 
 <template name="editPost">
 
-    <form class="form-horizontal" >
-        <div class="form-group">
-            <label for="title" class="col-xs-2 control-label">Title</label>
-            <div class="col-xs-10">
-                <input type="text" id="title" placeholder="Title" class="form-control" name="postTitle" value="{{title}}">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="text" class="col-xs-2 control-label">Text</label>
-            <div class="col-xs-10" >
-                <textarea placeholder="Text" id="text" name="postText" class="form-control" value={{text}} required></textarea>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-xs-offset-2 col-xs-10">
-                <button type="submit" class="submit-form">Submit</button>
-            </div>
-        </div>
-    </form>
+    {{>postForm}}
 
 </template>

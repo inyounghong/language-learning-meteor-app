@@ -1,6 +1,6 @@
 Meteor.methods({
 
-  'createNewPost': function(postTitle, postText){
+  'createNewPost': function(postTitle, postText, startLang){
     var currentUser = Meteor.userId();
     check(postTitle, String);
     check(postText, String);
@@ -14,6 +14,7 @@ Meteor.methods({
       wordCount: getWordCount(postText),
       page: 1,
       createdBy: currentUser,
+      language: startLang,
       createdAt: new Date()
     }
     if(!currentUser){
@@ -22,7 +23,7 @@ Meteor.methods({
     return Posts.insert(data);
   },
 
-  'updatePost': function(postId, postTitle, postText){
+  'updatePost': function(postId, postTitle, postText, startLang){
     var currentUser = Meteor.userId();
     var data = {
       _id: postId,
@@ -32,7 +33,8 @@ Meteor.methods({
       {
         title: postTitle,
         text: postText,
-        wordCount: getWordCount(postText)
+        wordCount: getWordCount(postText),
+        language: startLang
       }
     });
   },
@@ -80,13 +82,14 @@ Meteor.methods({
 
   // Reading lists
 
-  'createNewReadingList': function(postId){
+  'createNewReadingList': function(postId, endLang){
     var currentUser = Meteor.userId();
 
     var data = {
       post: postId,
       page: 1,
       createdBy: currentUser,
+      language: endLang,
       updatedAt: new Date()
     }
     if(!currentUser){
@@ -103,6 +106,18 @@ Meteor.methods({
     return Readinglists.update(data, {$set: 
       {
         updatedAt: new Date()
+      }
+    });
+  },
+
+  'updateReadingListLang': function(postId, endLang){
+    var data = {
+      _id: postId,
+      createdBy: Meteor.userId()
+    }
+    return Readinglists.update(data, {$set: 
+      {
+        language: endLang
       }
     });
   },

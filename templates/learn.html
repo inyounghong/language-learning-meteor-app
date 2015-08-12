@@ -5,25 +5,30 @@
 		<a href="{{pathFor route='learned'}}">{{learnedWords}} Learned Words</a>
 		/ <a href="{{pathFor route='words'}}">{{totalWords}} Total Words</a> 
 
-		<!-- Start Flashcard -->
-		<div class="flashcard">
-			<div class="flash-word">
-				{{word.word}}
+		{{#if word}}
+			<!-- Start Flashcard -->
+			<div class="flashcard">
+				<div class="flash-word">
+					{{word.word}}
+				</div>
+				<div class="flash-context">
+					{{{word.context}}}
+				</div>
+				<div class="flash-translation">
+					{{word.translation}}
+				</div>
+				<button class="btn full flash-button" id="translation-button">Translate</button>
+				<div class="mark-learned">I know this!</div>
 			</div>
-			<div class="flash-context">
-				{{{word.context}}}
-			</div>
-			<div class="flash-translation">
-				{{trans}}
-			</div>
-			<button class="btn full flash-button" id="translation-button">Translate</button>
-			<div class="mark-learned">I know this!</div>
-		</div>
+		{{else}}
+			<p>You have no words left to learn! </p>
+		{{/if}}
 
 	</div>
 
 	<!-- Right Side -->
 	<div class="main-right">
+		{{#if word}}
 		<div class="delete-word">Delete Word</div>
 		<div class="more-info">More Info</div>
 
@@ -33,6 +38,7 @@
 		</div>
 
 		<div id="temp-container"></div>
+		{{/if}}
 	</div>
 
 	<script>

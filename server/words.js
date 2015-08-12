@@ -3,6 +3,10 @@ Meteor.methods({
     'createWord': function(word, translation){
         var currentUser = Meteor.userId();
 
+        if (!word || !translation){
+            throw new Meteor.Error("invalid-word-parameters");
+        }
+
         // Insert into Words
         var data = {
             word: word,

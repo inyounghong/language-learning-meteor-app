@@ -5,18 +5,22 @@ Template.editPost.events({
 
         var postTitle = $('[name=postTitle]').val();
         var postText = $('[name=postText]').val();
+        var startLang = $('[name=startlanguage]').val();
+        var endLang = $('[name=endlanguage]').val();
 
         // Update existing post
         var id = this._id;
         var post = Posts.findOne(id);
 
-        Meteor.call('updatePost', this._id, postTitle, postText, function(error, results){
+        Meteor.call('updatePost', this._id, postTitle, postText, startLang, function(error, results){
             if(error) {
                 console.log(error.reason);
             } else {
+                Meteor.call('updateReadingListLang', id, endLang);
                 Router.go('post', {_id: id}, {query: 'page=' + post.page});
             }
         });
+        
     }
     
 });
@@ -30,18 +34,20 @@ Template.addPost.events({
 
     var postTitle = $('[name=postTitle]').val();
     var postText = $('[name=postText]').val();
+    var startLang = $('[name=startlanguage]').val();
+    var endLang = $('[name=endlanguage]').val();
 
       // Make new Post
 
-      Meteor.call('createNewPost', postTitle, postText, function(error, res){
+      Meteor.call('createNewPost', postTitle, postText, startLang, function(error, postId){
         if(error){
           console.log(error.reason);
         } else {
           //Router.go('postPage', { _id: results });
           $('[name=postTitle]').val('');
           $('[name=postText]').val('');
-          console.log(res);
-          Meteor.call('createNewReadingList', res, function(error, results){
+          console.log(postId);
+          Meteor.call('createNewReadingList', postId, endLang, function(error, results){
             if (error){
               console.log(error.reason);
             } else{
