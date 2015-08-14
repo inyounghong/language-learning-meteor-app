@@ -51,6 +51,14 @@ Template.words.helpers({
     	return Translations.find({createdBy: currentUser, learned: false}).count();
 	
  	},
+
+ 	'allActive': function(){
+ 		if (!this.learned) return "active";
+ 	},
+
+ 	'learnedActive': function(){
+ 		if (this.learned) return "active";
+ 	},
 });
 
 Template.words.events({

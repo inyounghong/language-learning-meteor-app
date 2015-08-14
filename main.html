@@ -15,7 +15,13 @@
 <template name="home">
 
     <h2>Bookshelf</h2>
-    <a class="btn" id="upload-text" href="{{pathFor route='addPost'}}">+ Upload Text</a>
+    <br>
+    <div class="right-button">
+    	<a class="btn" id="upload-text" href="{{pathFor route='addPost'}}">
+    		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    		Upload Text
+    	</a>
+    </div>
     
     {{> posts }}
 

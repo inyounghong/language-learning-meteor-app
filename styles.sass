@@ -36,6 +36,12 @@ button:hover, button:focus, button:active
 
 /* General Decor */
 
+h2
+	margin-top: 10px
+
+.c 
+	text-align: center
+
 .a
 	+link
 
@@ -47,12 +53,15 @@ button:hover, button:focus, button:active
 		color: #000
 
 .pretty-number
-	background: $blue
+	background: $accent
 	color: #fff
 	+border-radius(10px)
-	font-size: 14px
+	font-size: 13px
 	font-weight: 400
-	padding: 3px 10px
+	padding: 2px 8px
+	margin-left: 3px
+	position: relative
+	top: -1px
 
 button
 	background: $accent
@@ -65,18 +74,21 @@ button
 .btn
 	background: $accent
 	border: none
-	padding: 8px 15px
-	color: #fff
+	padding: 11px 15px
+	color: #fff!important
 	display: inline-block
 	+border-radius(3px)
 	+small-caps
 
+	&.full
+		width: 100%
+
 	&:hover
 		color: #fff
 
-#upload-text
+.right-button
 	position: absolute;
-	top: 55px
+	top: 38px
 	right: 60px
 
 /* Navigation */
@@ -124,6 +136,9 @@ button
 			text-decoration: none
 			background: #fff
 
+		img
+			margin-right: 5px
+
 .main-container
 	margin-top: 50px
 	margin-left: 230px
@@ -132,14 +147,19 @@ button
 	font-size: 15px
 	+border-box
 
+/* Profile Details */
+
+.profile-details
+	border-top: 1px solid #eaeaea
+	margin-top: 25px
+	padding-top: 15px
+
+	.number
+		font-size: 30px!important
+
 /* Reading */
 
-.action-menu
-	position: absolute
-	right: 100px
-	top: 50px
-	background: #eee
-	padding: 10px
+
 
 .reading-wrap
 	padding: 0 30px
@@ -167,6 +187,17 @@ button
 	display: none
 
 /* Word List */
+
+thead
+	background: $grey
+	border: 1px solid #ddd
+
+.filter-wrap
+	padding-top: 20px
+
+.filter-select
+	display: none
+
 .tab-wrap
 	margin-bottom: 20px
 	
@@ -217,11 +248,7 @@ button
 form .row
 	margin: 15px -15px
 
-.btn
-	color: #fff
 
-	&.full
-		width: 100%
 
 .form-box
 	max-width: 600px
@@ -266,21 +293,25 @@ form .row
 	vertical-align: top
 	margin-right: 50px
 
+.num-block
+	display: inline-block
+	text-align: center
+	min-width: 90px
+	margin-right: 20px
+
+	&:last-of-type
+		margin-right: 0px
+
+	.number
+		font-size: 40px
+		color: $accent
+		display: block
+		font-weight: 700
+
 .main-right
 	display: inline-block
 
-	.num-block
-		display: inline-block
-		text-align: center
-
-		&:first-of-type
-			margin-right: 20px
-
-		.number
-			font-size: 40px
-			color: $accent
-			display: block
-			font-weight: 700
+	
 		
 	.delete-word
 		+link
@@ -290,7 +321,7 @@ form .row
 
 .flashcard
 	border: 1px solid #ccc
-	+border-radius(5px)
+	+border-radius(3px)
 	padding: 20px
 	text-align: center
 
@@ -300,7 +331,7 @@ form .row
 
 	.flash-context
 		font-style: italic
-		color: #888
+		color: #999
 		height: 40px
 
 

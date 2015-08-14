@@ -1,32 +1,45 @@
 <template name="words">
 
-    <div class="tab-wrap">
-        <a href="{{pathFor route='words'}}" class="tab">New Words <span class="pretty-number">{{totalNewWords}}</span></a>
-        <a href="{{pathFor route='learned'}}" class="tab">Learned Words <span class="pretty-number">{{totalLearnedWords}}</span></a>
+    <ul class="nav nav-tabs">
+        <li class="{{allActive}}"><a href="{{pathFor route='words'}}" class="tab">New Words <span class="pretty-number">{{totalNewWords}}</span></a></li>
+        <li class="{{learnedActive}}"><a href="{{pathFor route='learned'}}" class="tab">Learned Words <span class="pretty-number">{{totalLearnedWords}}</span></a></li>
+    </ul>
+
+    <div class="right-button">
+        <a class="btn" href="{{pathFor route='learn'}}">
+            <img src="images/cards_white.png" style="margin-right: 3px; margin-top: -3px">
+             Flashcards</a>
     </div>
 
-    <a class="btn" href="{{pathFor route='learn'}}">Flashcards</a>
-
-    <div class="col-xs-5" >
-        From 
-        <select class="form-control" name="startLanguage" id="startLanguage">
-            <option value="en">All Languages</option>
-            <option value="en" selected="{{enSelectedA}}">English</option>
-            <option value="de" selected="{{deSelectedA}}">German</option>
-            <option value="es" selected="{{esSelectedA}}">Spanish</option>
-        </select>
+    <div class="row  filter-wrap">
+        <div class="col-xs-2">
+            <div class="a" id="addFilter">Filter by Language</div>
+        </div>
+        <div class="col-xs-1 filter-select">
+            From
+        </div>
+        <div class="col-xs-3 filter-select">
+            <select class="form-control" name="startLanguage" id="startLanguage">
+                <option value="en">All Languages</option>
+                <option value="en" selected="{{enSelectedA}}">English</option>
+                <option value="de" selected="{{deSelectedA}}">German</option>
+                <option value="es" selected="{{esSelectedA}}">Spanish</option>
+            </select>
+        </div>
+        <div class="col-xs-1 filter-select">
+            To
+        </div>
+        <div class="col-xs-3 filter-select">
+            <select class="form-control" name="endLanguage" id="endLanguage">
+                <option value="en">All Languages</option>
+                <option value="en" selected="{{enSelectedB}}">English</option>
+                <option value="de" selected="{{deSelectedB}}">German</option>
+                <option value="es" selected="{{esSelectedB}}">Spanish</option>
+            </select>
+        </div>
     </div>
-    <div class="col-xs-5" >
-        To 
-        <select class="form-control" name="endLanguage" id="endLanguage">
-            <option value="en">All Languages</option>
-            <option value="en" selected="{{enSelectedB}}">English</option>
-            <option value="de" selected="{{deSelectedB}}">German</option>
-            <option value="es" selected="{{esSelectedB}}">Spanish</option>
-        </select>
-    </div>
 
-    <br><br>
+    <hr>
     <table class="table">
         <thead>
         	<tr>
@@ -53,4 +66,10 @@
 	        {{/each}}
     	</tbody>
     </table>
+
+    <script>
+    $('#addFilter').click(function(){
+        $('.filter-select').toggle();
+    });
+    </script>
 </template>

@@ -1,19 +1,21 @@
 <template name="user">
-	<h1>{{profile.name}}</h1>
+	<h2 class="c">{{profile.name}}</h2>
 
-	<div class="profile-details">
-		<div class="post-count">
+	<div class="profile-details c">
+
+		<div class="num-block post-count">
 			<div class="number">{{postCount}}</div>
 			<div class="text">Texts</div>
 		</div>
-		<div class="learned-words">
+		<div class="num-block learned-words">
 			<div class="number">{{learnedWordCount}}</div>
 			<div class="text">Learned Words</div>
 		</div>
-		<div class="total-words">
+		<div class="num-block total-words">
 			<div class="number">{{totalWordCount}}</div>
 			<div class="text">Total Words</div>
 		</div>
 	</div>
+
 	{{> posts}}
 </template>
