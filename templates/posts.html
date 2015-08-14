@@ -80,14 +80,7 @@
 
         <div class="form-group">
             <label class="col-xs-2 control-label">Language</label>
-            <div class="col-xs-5" >
-                From 
-                {{ > languageSelect name='startlanguage'}}
-            </div>
-            <div class="col-xs-5" >
-                To 
-                {{ > languageSelect name='endlanguage'}}
-            </div>
+            {{ > languageSelect }}
         </div>
 
         <div class="form-group">
@@ -99,11 +92,24 @@
 </template>
 
 <template name="languageSelect">
-    <select class="form-control" name="{{name}}" id="{{name}}">
-        <option value="en" id="en">English</option>
-        <option value="de" id="de">German</option>
-        <option value="es" id="es">Spanish</option>
-    </select>
+    {{setLanguages}}
+    <div class="col-xs-5" >
+        From 
+        <select class="form-control" name="startLanguage" id="startLanguage">
+            <option value="en" selected="{{enSelectedA}}">English</option>
+            <option value="de" selected="{{deSelectedA}}">German</option>
+            <option value="es" selected="{{esSelectedA}}">Spanish</option>
+        </select>
+        {{enSelectedA}}
+    </div>
+    <div class="col-xs-5" >
+        To 
+        <select class="form-control" name="endLanguage" id="endLanguage">
+            <option value="en" selected="{{enSelectedB}}">English</option>
+            <option value="de" selected="{{deSelectedB}}">German</option>
+            <option value="es" selected="{{esSelectedB}}">Spanish</option>
+        </select>
+    </div>
 </template>
 
 
@@ -155,7 +161,7 @@
 
 
 <template name="editPost">
-
+    {{setPostId}}
     {{>postForm}}
 
 </template>

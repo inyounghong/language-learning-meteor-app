@@ -16,7 +16,10 @@ Template.words.helpers({
 	},
 
 
-
+	'origWord': function(){
+		word = Words.findOne(this.word);
+		return word.word;
+	},
 
  	'totalLearnedWords': function(){
  		var currentUser = Meteor.userId();

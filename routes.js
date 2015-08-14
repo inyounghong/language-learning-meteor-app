@@ -79,10 +79,6 @@ Router.route('/post/:_id', {
     var postId = this.params._id;
     var page = this.params.query.page;
     var post = Posts.findOne({_id: postId});
-    var readinglist = Readinglists.findOne({
-      createdBy: Meteor.userId(),
-      post: postId
-    });
 
     return {
       post: post,

@@ -50,7 +50,10 @@ Template.post.events({
                         // Word exists, but need to append translation
                         console.log("Word exists, but need to append translation");
                         wordId = wordObj._id;
-                        Meteor.call('addTranslationToWord', wordId, translation, endLang);                    
+                        Meteor.call('addTranslationToWord', wordId, translation, endLang); 
+
+                        console.log("Creating Translation" + wordId + translation + context);
+                        Meteor.call('createTranslation', wordId, translation, context);                   
                     }
 
                     // Display translation
@@ -67,7 +70,6 @@ Template.post.events({
             if (typeof transObj === 'undefined'){
                 // User does not have a translation, must pull from word data
                 console.log("User does not have own translation. Pulling data from word");
-                console.log(transObj);
                 translation = wordObj.endLang;
                 console.log(translation);
 
@@ -76,6 +78,7 @@ Template.post.events({
                 Meteor.call('createTranslation', wordId, translation, context);
 
             } else {
+                console.log(transObj);
                 translation = transObj.translation;
             }
 
@@ -143,6 +146,8 @@ Template.post.helpers({
 
     'startLang': function(){
         var startLang = this.post.language;
+        console.log("rhis post");
+        console.log(this.post);
         Session.set("startLang", startLang);
         return startLang;
     },

@@ -8,8 +8,14 @@ Template.learn.helpers({
     		}, {sort: {tests: 1}});
     	Session.set('word', word.word);
     	Session.set('translationId', word._id);
+
     	return word;
  	},
+
+ 	'origWord': function(){
+		word = Words.findOne(Session.get("word"));
+		return word.word;
+	},
 
  	'trans': function(){
  		var word = Session.get('word');
