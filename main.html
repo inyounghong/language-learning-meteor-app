@@ -13,10 +13,9 @@
 </template>
 
 <template name="home">
-    <p>Welcome!</p>
 
-    <h2>Posts</h2>
-    {{> addPost}}
+    <h2>Bookshelf</h2>
+    <a class="btn" id="upload-text" href="{{pathFor route='addPost'}}">+ Upload Text</a>
     
     {{> posts }}
 

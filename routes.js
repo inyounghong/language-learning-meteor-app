@@ -66,6 +66,11 @@ Router.route('/user/:_id',{
 
 // Posts
 
+Router.route('/new', {
+  name: 'addPost',
+  template: 'addPost'
+})
+
 Router.route('/post/edit/:_id', {
   name: 'editPost',
   template: 'editPost',

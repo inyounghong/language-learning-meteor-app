@@ -7,6 +7,26 @@
 
     <a class="btn" href="{{pathFor route='learn'}}">Flashcards</a>
 
+    <div class="col-xs-5" >
+        From 
+        <select class="form-control" name="startLanguage" id="startLanguage">
+            <option value="en">All Languages</option>
+            <option value="en" selected="{{enSelectedA}}">English</option>
+            <option value="de" selected="{{deSelectedA}}">German</option>
+            <option value="es" selected="{{esSelectedA}}">Spanish</option>
+        </select>
+    </div>
+    <div class="col-xs-5" >
+        To 
+        <select class="form-control" name="endLanguage" id="endLanguage">
+            <option value="en">All Languages</option>
+            <option value="en" selected="{{enSelectedB}}">English</option>
+            <option value="de" selected="{{deSelectedB}}">German</option>
+            <option value="es" selected="{{esSelectedB}}">Spanish</option>
+        </select>
+    </div>
+
+    <br><br>
     <table class="table">
         <thead>
         	<tr>

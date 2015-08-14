@@ -42,8 +42,8 @@ Template.post.events({
                             if (!err){
                                 wordId = res;
                                 // This can't move: No translation exists, so create it
-                                console.log("Creating Translation" + wordId + translation + context);
-                                Meteor.call('createTranslation', wordId, translation, context);
+                                console.log("Creating Translation" + wordId + endLang + translation + context);
+                                Meteor.call('createTranslation', wordId, startLang, endLang, translation, context);
                             }
                         });                    
                     } else {
@@ -52,8 +52,8 @@ Template.post.events({
                         wordId = wordObj._id;
                         Meteor.call('addTranslationToWord', wordId, translation, endLang); 
 
-                        console.log("Creating Translation" + wordId + translation + context);
-                        Meteor.call('createTranslation', wordId, translation, context);                   
+                        console.log("Creating Translation" + wordId + endLang + translation + context);
+                        Meteor.call('createTranslation', wordId, startLang, endLang, translation, context);                   
                     }
 
                     // Display translation
@@ -66,7 +66,7 @@ Template.post.events({
             // Word and translation both exists
             var wordId = wordObj._id;
             console.log("word id" + wordId);
-            var transObj = Translations.findOne({word: wordId });
+            var transObj = Translations.findOne({word: wordId, language: endLang});
             if (typeof transObj === 'undefined'){
                 // User does not have a translation, must pull from word data
                 console.log("User does not have own translation. Pulling data from word");
@@ -74,8 +74,8 @@ Template.post.events({
                 console.log(translation);
 
                 // Create translation
-                console.log("Creating Translation" + wordId + translation + context);
-                Meteor.call('createTranslation', wordId, translation, context);
+                console.log("Creating Translation" + wordId + endLang + translation + context);
+                Meteor.call('createTranslation', wordId, startLang, endLang, translation, context);
 
             } else {
                 console.log(transObj);
@@ -213,13 +213,28 @@ Template.post.helpers({
 
             // Check if <br> should be added
             if (containsLineBreaks(word)){
+                console.log("word contains line");
+
+
                 word = removeLineBreaks(word);
-                text_string += '<br><br>';
+                word_array = word.split(" ");
+                console.log(word_array);
+                // Special case for words with line breaks
+                for (var a = 0; a < word_array.length; a++){
+                    word = word_array[a];
+                    text_string += createWordElement(word_array[a]);
+                    if (a != word_array.length -1){
+                        text_string += '<br>';
+                    }
+                }
             }
-            // Continue if word is not empty
-            if (!wordIsEmpty(word)){
-                text_string += createWordElement(word);
+            else{
+                // Continue if word is not empty
+                if (!wordIsEmpty(word)){
+                    text_string += createWordElement(word);
+                }
             }
+            
         	
         }
         return text_string;
@@ -248,6 +263,22 @@ Template.post.helpers({
         console.log(Meteor.userId());
         return this.post.createdBy == Meteor.userId();
     }
+
+});
+
+
+// Individual posts
+Template.postItem.helpers({
+
+    // Gives author name
+    'author': function(){
+        var user = Meteor.users.findOne(this.createdBy);
+        return user.profile.name;
+    },
+
+    'pageCount': function(){
+        return Math.ceil(this.wordCount/150);
+    }
 });
 
 // Creates a word element
@@ -274,7 +305,7 @@ function containsLineBreaks(word){
 
 // Returns word without line breaks
 function removeLineBreaks(word){
-    return word.replace(/(\r\n|\n|\r)/gm,"");
+    return word.replace(/(\r\n|\n|\r)/gm," ");
 }
 
 // Returns true if word is empty, and should not be displayed

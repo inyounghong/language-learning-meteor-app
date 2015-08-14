@@ -9,12 +9,18 @@
 =small-caps
 	font-weight: 500
 	text-transform: uppercase
-	letter-spacing: .05em
 	color: #888
 	font-size: 12px
+	letter-spacing: .05em
+
+=link
+	cursor: pointer
+
 
 $blue: #659FC1
-$accent: #659FC1
+$accent: #77C1EC
+$green: #79C76E
+$grey: #f4f4f4
 
 /* Globals */
 a:hover, a:focus
@@ -23,7 +29,22 @@ a:hover, a:focus
 button:hover, button:focus, button:active
 	color: #fff!important
 
+/* Icon */
+
+.glyphicon-ok
+	color: $green
+
 /* General Decor */
+
+.a
+	+link
+
+.hoverlink
+	color: #444
+	+link
+
+	&:hover
+		color: #000
 
 .pretty-number
 	background: $blue
@@ -48,22 +69,39 @@ button
 	color: #fff
 	display: inline-block
 	+border-radius(3px)
+	+small-caps
 
 	&:hover
 		color: #fff
 
+#upload-text
+	position: absolute;
+	top: 55px
+	right: 60px
 
 /* Navigation */
+
+.navbar-default
+	background: #fff
+	border-color: #ddd
+
+.navbar-header
+	margin-left:15px!important
+
 .navbar
 	border-radius: 0!important
 	position: fixed
 	top: 0
 
+.navbar-right
+	margin-right: 10px
+
+
 /* Sidebar */
 
 .sidebar
 	width: 230px
-	background: #eee
+	background: $grey
 	position: fixed
 	height: 100%
 	padding: 40px 20px 40px 0
@@ -78,18 +116,20 @@ button
 
 	.link
 		display: block
-		padding: 6px 0 6px 30px
+		padding: 7px 0 7px 30px
+		color: #444
 		+border-radius(5px)
 
 		&:hover
 			text-decoration: none
-			background: #ddd
+			background: #fff
 
 .main-container
 	margin-top: 50px
 	margin-left: 230px
 	padding: 35px 60px
 	position: relative
+	font-size: 15px
 	+border-box
 
 /* Reading */
@@ -104,9 +144,10 @@ button
 .reading-wrap
 	padding: 0 30px
 	max-width: 800px
+	margin: 0 auto
 
 #prev-page, #next-page
-	position: absolute
+	position: fixed
 	top: 0
 	height: 100%
 	+border-box
@@ -114,10 +155,10 @@ button
 	padding: 25% 10px
 
 	&:hover
-		background: #f4f4f4
+		background: $grey
 
 #prev-page
-	left: 0
+	left: 230px
 
 #next-page
 	right: 0
@@ -183,16 +224,18 @@ form .row
 		width: 100%
 
 .form-box
-	max-width: 500px
+	max-width: 600px
 
 /* Posts */
 
 .panel-header
 	padding: 8px 15px
 	border: 1px solid #ddd
-	background: #eee
+	background: $grey
 	margin-top: 20px
 	+small-caps
+
+/* Post item */
 
 .post
 
@@ -202,6 +245,8 @@ form .row
 		.title
 			font-weight: 500
 
+	.details
+		font-size: 13px
 
 
 .user-image
@@ -224,8 +269,27 @@ form .row
 .main-right
 	display: inline-block
 
+	.num-block
+		display: inline-block
+		text-align: center
+
+		&:first-of-type
+			margin-right: 20px
+
+		.number
+			font-size: 40px
+			color: $accent
+			display: block
+			font-weight: 700
+		
+	.delete-word
+		+link
+
+	.more-info
+		+link
+
 .flashcard
-	border: 1px solid #ddd
+	border: 1px solid #ccc
 	+border-radius(5px)
 	padding: 20px
 	text-align: center
@@ -237,15 +301,43 @@ form .row
 	.flash-context
 		font-style: italic
 		color: #888
+		height: 40px
 
 
 	.flash-translation
 		font-size: 30px
 		opacity:0
-		margin: 40px 0 50px
+		margin: 30px 0 60px
+		text-align: center
+		border: 1px solid #fff
+		display: inline-block
+		width: 100%
+		padding: 5px 0
+
+		&:hover
+			border: 1px solid #ccc
+			background: #f8f8f8
+
+
 
 	.flash-button
+		padding: 15px 0
 
+
+ul#trans-info
+	margin-left: -20px
+
+	.alt
+		display: inline-block
+		width: 130px
+
+	.change-translation
+		display: none
+		color: $blue;
+		cursor: pointer
+
+	li:hover .change-translation
+		display: inline-block
 
 /* Pop */
 

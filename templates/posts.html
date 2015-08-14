@@ -6,7 +6,7 @@
                 {{> postItem}}
             {{/each}}
 
-        {{else}}
+        {{ else }}
 
             {{#if todayPost}}
             <div class="panel-header">Today</div>
@@ -35,6 +35,14 @@
             {{#each oldPost}}
                 {{> postItem}}
             {{/each}}
+
+        {{/if }}
+
+        {{#if noPost}}
+        <div class="panel-header">Texts</div>
+        <div class="post list-group-item">
+            Looks like your bookshelf is empty! <a href="{{pathFor route='addPost'}}">Upload</a> your own texts or <a href="{{pathFor route='browse'}}">browse texts</a> to find content to read. 
+        </div>
         {{/if}}
     </ul>
 </template>
@@ -50,10 +58,11 @@
             <div class="text">{{sampleText}}</div>
         
             <div class="details">
-                <span class="uploaded-by"><a href=""> {{createdBy}}</a></span>
-                <span class="word-count">Word Count: {{wordCount}}</span>
-                <span class="page-count">Page Count: {{pageCount}}</span>
-                <span class="user-count">User Count: {{userCount}}</span>
+                <span class="uploaded-by"><a href=""> {{author}}</a></span> -
+                <span class="word-count">Word Count: {{wordCount}}</span> -
+                <span class="page-count">Page Count: {{pageCount}}</span> -
+                <span class="user-count">User Count: {{userCount}}</span> -
+                <span class="language">Language: {{language}}</span>
                 <!-- <span class="reader-count">Readers: {{readerCount}}</span> -->
             </div>
 
@@ -63,7 +72,7 @@
 
 <template name="postForm">
     <!-- Post Form Only -->
-    <form class="form-horizontal" id="addpostform">
+    <form class="form-horizontal form-box" id="addpostform">
         <div class="form-group">
             <label for="title" class="col-xs-2 control-label">Title</label>
             <div class="col-xs-10">
@@ -100,7 +109,6 @@
             <option value="de" selected="{{deSelectedA}}">German</option>
             <option value="es" selected="{{esSelectedA}}">Spanish</option>
         </select>
-        {{enSelectedA}}
     </div>
     <div class="col-xs-5" >
         To 
@@ -114,44 +122,45 @@
 
 
 <template name="addPost">
-    <button class="togglePopup">+ Add New Text</button>
-        
     
+    <h2>New Text</h2>
+    <br>
+    {{>postForm}}
     <!-- Popup -->
-    <div class="popup">
-        {{>postForm}}
+<!--     <div class="popup">
+        
        
-    </div>
+    </div> -->
 
     <script>
     // Open popup on click
 
-    $('.togglePopup').on('click', function (e) {
-        console.log("csdf");
-        $('#overlay').show();
-        $('.popup').toggleClass('active');
+    // $('.togglePopup').on('click', function (e) {
+    //     console.log("csdf");
+    //     $('#overlay').show();
+    //     $('.popup').toggleClass('active');
 
-        // Close popup when clicking outside
-        $(document).bind("click", function(e){
-            if( (notButton(e) && outsideBox(e)) || isSubmit(e)){
-                $('#overlay').toggle();
-                $('.popup').toggleClass('active');
-                $(document).unbind("click");
-            }
-        })
-    });
+    //     // Close popup when clicking outside
+    //     $(document).bind("click", function(e){
+    //         if( (notButton(e) && outsideBox(e)) || isSubmit(e)){
+    //             $('#overlay').toggle();
+    //             $('.popup').toggleClass('active');
+    //             $(document).unbind("click");
+    //         }
+    //     })
+    // });
 
-    function notButton(e){
-        return $(e.target).attr("class") != "togglePopup";
-    }
+    // function notButton(e){
+    //     return $(e.target).attr("class") != "togglePopup";
+    // }
 
-    function outsideBox(e){
-        return !$(e.target).closest('.popup').length;
-    }
+    // function outsideBox(e){
+    //     return !$(e.target).closest('.popup').length;
+    // }
 
-    function isSubmit(e){
-        return $(e.target).attr("class") == "submit-form";
-    }
+    // function isSubmit(e){
+    //     return $(e.target).attr("class") == "submit-form";
+    // }
 
 
 

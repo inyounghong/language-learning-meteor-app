@@ -43,28 +43,29 @@ Template.learn.events({
 
 	'click .more-info': function(event){
 		$('#trans-box').prepend("<img src='/images/loading.gif' id='loading'>");
+		var word = Words.findOne(Session.get('word'));
 
-		Meteor.call('infoCall', Session.get('word'), function(err, res){
+		Meteor.call('infoCall', word.word, function(err, res){
 			var page = res;
-			//console.log(page);
 			$('#temp-container').html(page);
 
 			
-			var trans_array = [];
+			var transSet = new Set();
 			// Get translations
 			// $('#temp-container .rom').children('.translations').each(function(){
 
 			// 	// Get first of each translation
 			// 	var trans = $(this).find('.target').first().text();
-			// 	trans_array.push(cleanTrans(trans));
+			// 	transSet.push(cleanTrans(trans));
 			// });
 			$('#temp-container .sense_list_item').each(function(){
 				if (legitDef( $(this) )){
 					var trans = $(this).find('.cit').first().text();
-					trans_array.push(trans);
+					transSet.add(trans);
 				}
 			})
-			displayTrans(trans_array);
+			console.log(transSet);
+			displayTrans(transSet);
 		});
 
 		
@@ -118,15 +119,20 @@ Template.learn.events({
 		// Add translation to alts
 		Meteor.call('addTranslationToWord', word._id, newTrans);
 		Meteor.call('changeTranslation', Session.get('translationId'), newTrans);
+	},
+
+	'blur .flash-translation': function(event){
+		var newTrans = $(event.target).val();
+		Meteor.call('changeTranslation', Session.get('translationId'), newTrans);
 	}
 
 });
 
-function displayTrans(trans_array){
+function displayTrans(set){
 	// display alt translatins
-	for (i = 0; i < trans_array.length; i++){
-		$('#trans-info').append('<li><div class="alt">' + trans_array[i] + '</div><div class="change-translation">Use this translation</div></li>');
-	}
+	set.forEach(function(value){
+		$('#trans-info').append('<li><div class="alt">' + value + '</div><div class="change-translation">Use this translation</div></li>');
+	});
 	// Remove loading
 	$('#loading').remove();
 }

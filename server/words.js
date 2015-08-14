@@ -51,14 +51,16 @@ Meteor.methods({
     },
 
     // Create translation
-    'createTranslation': function(wordId, translation, context){
+    'createTranslation': function(wordId, startLang, endLang, translation, context){
         var currentUser = Meteor.userId();
 
         //Insert into Translations
         var data = {
             createdBy: currentUser,
             word: wordId,
+            language: endLang,
             translation: translation,
+            startLang: startLang,
             context: context,
             learned: false,
             createdAt: new Date(),

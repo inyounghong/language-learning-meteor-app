@@ -28,6 +28,14 @@ Template.settings.helpers({
 		return user = Meteor.users.findOne(userId);
 	},
 
+    'setLanguageSession': function(){
+
+        var user = Meteor.users.findOne(Meteor.userId());
+        // Set session variables
+        Session.set("startLanguage", user.profile.startLang);
+		Session.set("endLanguage", user.profile.endLang);
+    },
+
 });
 
 // Update account
@@ -48,6 +56,7 @@ Template.settings.events({
 				console.log(error);
 			}
 			console.log(result);
+			Router.go('home');
 		});
 	}
 });

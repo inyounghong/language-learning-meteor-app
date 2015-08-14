@@ -1,11 +1,9 @@
 <template name="learn">
 	<!-- Left Side -->
 	<div class="main-left">
-
-		<a href="{{pathFor route='learned'}}">{{learnedWords}} Learned Words</a>
-		/ <a href="{{pathFor route='words'}}">{{totalWords}} Total Words</a> 
-
 		{{#if word}}
+		
+		
 			<!-- Start Flashcard -->
 			<div class="flashcard">
 				<div class="flash-word">
@@ -14,14 +12,19 @@
 				<div class="flash-context">
 					{{{word.context}}}
 				</div>
-				<div class="flash-translation">
-					{{word.translation}}
+
+				<div class="translation-wrap">
+					<input type="text" class="flash-translation" value="{{word.translation}}">
 				</div>
-				<button class="btn full flash-button" id="translation-button">Translate</button>
-				<div class="mark-learned">I know this!</div>
+
+				<div class="btn full flash-button" id="translation-button">Translate</div>
+				
 			</div>
+			
 		{{else}}
-			<p>You have no words left to learn! </p>
+			<p>You don't have any words to study yet.</p>
+
+			<p><a href="{{pathFor route='home'}}">Upload</a> your own texts or <a href="{{pathFor route='browse'}}">browse texts</a> to find content to read!</p>
 		{{/if}}
 
 	</div>
@@ -29,13 +32,38 @@
 	<!-- Right Side -->
 	<div class="main-right">
 		{{#if word}}
-		<div class="delete-word">Delete Word</div>
-		<div class="more-info">More Info</div>
+			<div class="num-block">
+				<a href="{{pathFor route='learned'}}">
+					<span class="number">{{learnedWords}}</span>
+					<span class="text">Learned Words</span>
+				</a>
+			</div>
+			<div class="num-block">
+				<a href="{{pathFor route='words'}}">
+					<span class="number">{{totalWords}}</span>
+					<span class="text"> Total Words</span>
+				</a> 
+			</div>
+			<hr>
+			<div class="mark-learned hoverlink">
+				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				I know this!</div>
+			
+			<hr>
+			
+			<div class="more-info hoverlink">
+				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+				Additional Translations</div>
+			<hr>
+			<div class="delete-word hoverlink">
+			<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete Word</div>
 
-		<div id="trans-box">
-			<ul id="trans-info">
-			</ul>
-		</div>
+			<!-- Hidden Box -->
+			<div id="trans-box">
+				<ul id="trans-info">
+				</ul>
+			</div>
+
 
 		<div id="temp-container"></div>
 		{{/if}}

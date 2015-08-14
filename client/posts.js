@@ -37,7 +37,7 @@ Template.editPost.events({
 
 Template.addPost.events({
 
-  // Create/Update new post
+  // Create
 
   'submit form':function(event){
     event.preventDefault();
@@ -53,15 +53,18 @@ Template.addPost.events({
         if(error){
           console.log(error.reason);
         } else {
+            var postId = postId;
           //Router.go('postPage', { _id: results });
           $('[name=postTitle]').val('');
           $('[name=postText]').val('');
           console.log(postId);
+          // Create Reading list
           Meteor.call('createNewReadingList', postId, endLang, function(error, results){
             if (error){
               console.log(error.reason);
             } else{
               console.log(results);
+              Router.go('/post/' + postId + '?page=1');
             }
           });
         }
@@ -139,6 +142,13 @@ Template.posts.helpers({
           return Posts.find({}, {sort: {createdAt: -1}});
         }
 
+    },
+
+    // Returns true if there are no posts by the user.
+    'noPost': function(){
+        if (Readinglists.find({createdBy: Meteor.userId()}).count() == 0){
+            return true;
+        }
     },
 
     'todayPost': function(){
