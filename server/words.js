@@ -1,6 +1,6 @@
 Meteor.methods({
 
-    'createWord': function(word, translation){
+    'createWord': function(word, translation, startLang, endLang){
         var currentUser = Meteor.userId();
 
         if (!word || !translation){
@@ -10,8 +10,9 @@ Meteor.methods({
         // Insert into Words
         var data = {
             word: word,
-            translation: translation
+            language: startLang,
         }
+        data[endLang] = translation;
         // Return wordId
         return Words.insert(data); 
 
@@ -29,12 +30,14 @@ Meteor.methods({
         }
     },
 
-    'addTranslationToWord': function(wordId, trans){
+    'addTranslationToWord': function(wordId, trans, endLang){
 
         var data = { 
           _id: wordId
         }
-        return Words.update(data, {$push: {alts: trans} } );
+        var set = {};
+        set[endLang] = trans;
+        return Words.update(data, {$set: set } );
 
     },
 
@@ -50,11 +53,11 @@ Meteor.methods({
     // Create translation
     'createTranslation': function(wordId, translation, context){
         var currentUser = Meteor.userId();
-        var word = Words.findOne(wordId).word;
+
         //Insert into Translations
         var data = {
             createdBy: currentUser,
-            word: word,
+            word: wordId,
             translation: translation,
             context: context,
             learned: false,

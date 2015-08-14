@@ -76,11 +76,17 @@ Router.route('/post/:_id', {
   name: 'post',
   template: 'post',
   data: function(){
-    var currentPost = this.params._id;
+    var postId = this.params._id;
     var page = this.params.query.page;
+    var post = Posts.findOne({_id: postId});
+    var readinglist = Readinglists.findOne({
+      createdBy: Meteor.userId(),
+      post: postId
+    });
+
     return {
-      post: Posts.findOne({_id: currentPost}),
-      page: page
+      post: post,
+      page: page,
     }
   },
   onBeforeAction: function(){
@@ -110,7 +116,7 @@ Router.route('/post/:_id', {
   },
   waitOn: function(){
     var currentPost = this.params._id;
-    Meteor.subscribe('todos', currentPost);
+    //Meteor.subscribe('todos', currentPost);
   }
 });
 

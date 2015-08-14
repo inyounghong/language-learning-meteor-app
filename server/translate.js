@@ -12,10 +12,10 @@ var apiCall = function(apiUrl, callback) {
 
 
 Meteor.methods({
-  'yandexCall': function(text) {
+  'yandexCall': function(text, startLang, endLang) {
     this.unblock();
     var APIkey = 'trnsl.1.1.20150613T055546Z.e427180336dd7a33.8c5577f75ca831698eb10dac240a7bfa66bc4620';
-    var apiUrl = 'https://translate.yandex.net/api/v1.5/tr.json/translate?key=' + APIkey + '&lang=de-en&text=' + encodeURIComponent(text) ;
+    var apiUrl = 'https://translate.yandex.net/api/v1.5/tr.json/translate?key=' + APIkey + '&lang=' + startLang + '-' + endLang + '&text=' + encodeURIComponent(text) ;
     var response = Meteor.wrapAsync(apiCall)(apiUrl);
     return response;
   },

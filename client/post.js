@@ -4,89 +4,86 @@ Template.post.events({
 	'click .unselected':function(event){
 
         $(event.target).prev().html("<img src='/images/loading.gif'>");
-		
+
+        // Get session variables
+		var startLang = Session.get("startLang");
+        var endLang = Session.get("endLang");
+
         // Get actual word
 		var word = clean($(event.target).text());
-        console.log("Starting translation for word: " + word);
+        console.log("Starting translation for word: " + word + " from " +startLang + endLang);
 
         var context = getContext($(event.target));
 
         var translation = "";
 
-        // Check if translation exists
-        var translationId = Translations.findOne({word: word});
+        // Check if word exists using word and languagae
 
-        if (typeof translationId == 'undefined'){
+        var wordObj = Words.findOne({word: word, language: startLang});
 
-            // If translation does't exists
+        if(typeof wordObj === 'undefined' || typeof wordObj[endLang] === 'undefined'){
+            // If word does not exist, or de does not exist yandex it
 
-            console.log("Translation doesn't exist yet. Checking if word exists.");
-
-            // Check database for word
-            var wordId = Words.findOne({word: word});
-
-            if(typeof wordId == 'undefined'){
-                // If word does not exist, yandex it
-                console.log("Word does not exist. Making Yandex CAll");
+            console.log("Word/translation does not exist. Making Yandex CAll");
                 
-                Meteor.call('yandexCall', word, function(err, res){
-                    if (err){
-                        console.log("error");
-                    } else {
-                        // Set translation for Word
-                        translation = res.text[0];
+            Meteor.call('yandexCall', word, startLang, endLang, function(err, res){
+                if (err){
+                    console.log("error");
+                } else {
+                    // Set translation for Word
+                    translation = res.text[0];
+                    console.log("response: " + translation);
+                    var wordId = "";
 
+                    if(typeof wordObj === 'undefined'){
+                        console.log("Word does not exist. Creating");
                         // Word does not exist, create it
-                        Meteor.call('createWord', word, translation, function(err, wordId){
-                            if (err){
-                                console.log(err);
+                        Meteor.call('createWord', word, translation, startLang, endLang, function(err, res){
+                            if (!err){
+                                wordId = res;
+                                // This can't move: No translation exists, so create it
+                                console.log("Creating Translation" + wordId + translation + context);
+                                Meteor.call('createTranslation', wordId, translation, context);
                             }
-                            console.log("Word did not exist. Created Word: " + word);
-                            console.log("response is" + wordId);
-                            wordId = wordId;
-
-                            // This can't move: No translation exists, so create it
-                            console.log("Creating Translation" + wordId + translation + context);
-                            Meteor.call('createTranslation', wordId, translation, context);
-
-                            // Display translation
-                            console.log("Trying to display translation" + translation);
-                            $(event.target).prev().text(translation);
-                            $(event.target).removeClass("unselected").addClass("selected");
-                        });
-
+                        });                    
+                    } else {
+                        // Word exists, but need to append translation
+                        console.log("Word exists, but need to append translation");
+                        wordId = wordObj._id;
+                        Meteor.call('addTranslationToWord', wordId, translation, endLang);                    
                     }
-                });
-            } else {
-                // The word exists in the database, so pull that data (there is no user data to pull from)
-                translation = wordId.translation[0].trans;
-                console.log("This word exists in the database with translation: " + translation);
-                
-                // No translation exists, so create it
+
+                    // Display translation
+                    console.log("Trying to display translation" + translation);
+                    $(event.target).prev().text(translation);
+                    $(event.target).removeClass("unselected").addClass("selected");
+                }
+            });
+        } else {
+            // Word and translation both exists
+            var wordId = wordObj._id;
+            console.log("word id" + wordId);
+            var transObj = Translations.findOne({word: wordId });
+            if (typeof transObj === 'undefined'){
+                // User does not have a translation, must pull from word data
+                console.log("User does not have own translation. Pulling data from word");
+                console.log(transObj);
+                translation = wordObj.endLang;
+                console.log(translation);
+
+                // Create translation
                 console.log("Creating Translation" + wordId + translation + context);
                 Meteor.call('createTranslation', wordId, translation, context);
 
-                // Display translation
-                console.log("Trying to display translation" + translation);
-                $(event.target).prev().text(translation);
-                $(event.target).removeClass("unselected").addClass("selected");
+            } else {
+                translation = transObj.translation;
             }
-
-        } else{
-            // Translation already exists, which means word exists too.
-            console.log("Translation already exist for this user");
-
-            // Just pull users' translation data out
-            console.log(translation);
-            translation = translationId.translation;
 
             // Display translation
             console.log("Trying to display translation" + translation);
             $(event.target).prev().text(translation);
             $(event.target).removeClass("unselected").addClass("selected");
         }
-
-        
 
 	},
 
@@ -144,21 +141,17 @@ Template.post.helpers({
         console.log(startLang + endLang);
     },
 
-
-    'endLang': function(){
-        // Set ending select
-        var readingList = Readinglists.findOne({
-            createdBy: Meteor.userId(),
-            post: this.post._id
-        });
-        console.log(readingList);
-
-        var endLang = readingList.language;
-        return endLang;
+    'startLang': function(){
+        var startLang = this.post.language;
+        Session.set("startLang", startLang);
+        return startLang;
     },
 
-    'readerCount': function(){
-
+    'endLang': function(){
+        var readingList = Readinglists.findOne({post: this.post._id});
+        var endLang = readingList.language;
+        Session.set("endLang", endLang);
+        return endLang;
     },
 
     'prev': function(){
@@ -179,12 +172,14 @@ Template.post.helpers({
         }
     },
 
-    'nextDisabled': function(){
-
+    'disableNext': function(){
+        return Session.get('disableNext');
     },
 
     // Converts text into word divs
     'textAfterLoad': function(){
+
+        Session.set('disableNext', "");
 
         // Calculate pages
         var WORDS_PER_PAGE = 150;
@@ -196,10 +191,10 @@ Template.post.helpers({
         // If on last page, disable next button
         if (end == this.post.wordCount){
             console.log("Next page disabled");
-            $('#next-page').attr("class", "pagination disabled");
+            Session.set('disableNext', "disabled");
         }
         else{
-            $('#next-page').attr("class", "pagination enabled");
+            Session.set('disableNext', "");
         }
 
         // Grab and split text
@@ -341,8 +336,6 @@ function getContext(element){
         context.pop();
         contextStr = contextStr + " ...";
     }
-
-    console.log("context is: " + contextStr);
     return contextStr;
 }
 

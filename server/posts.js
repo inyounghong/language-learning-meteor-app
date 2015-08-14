@@ -112,7 +112,7 @@ Meteor.methods({
 
   'updateReadingListLang': function(postId, endLang){
     var data = {
-      _id: postId,
+      post: postId,
       createdBy: Meteor.userId()
     }
     return Readinglists.update(data, {$set: 

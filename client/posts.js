@@ -3,21 +3,31 @@ Template.editPost.events({
     'submit form': function(event){
         event.preventDefault();
 
+        // Get input data
         var postTitle = $('[name=postTitle]').val();
         var postText = $('[name=postText]').val();
         var startLang = $('[name=startlanguage]').val();
         var endLang = $('[name=endlanguage]').val();
 
         // Update existing post
-        var id = this._id;
-        var post = Posts.findOne(id);
+        var postId = this._id;
+        var post = Posts.findOne(postId);
 
+        // Update post
         Meteor.call('updatePost', this._id, postTitle, postText, startLang, function(error, results){
             if(error) {
                 console.log(error.reason);
             } else {
-                Meteor.call('updateReadingListLang', id, endLang);
-                Router.go('post', {_id: id}, {query: 'page=' + post.page});
+
+                // Update reading list with end language
+                Meteor.call('updateReadingListLang', postId, endLang, function(err, res){
+                    if(!err){
+                        console.log("res: " + res);
+                    } else{
+                        console.log(err);
+                    }
+                });
+                Router.go('post', {_id: postId}, {query: 'page=' + post.page});
             }
         });
         
