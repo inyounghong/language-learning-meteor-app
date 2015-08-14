@@ -20,3 +20,10 @@ Meteor.publish('todos', function(currentPost){
   var currentUser = this.userId;
   return Todos.find({createdBy: currentUser, postId: currentPost});
 });
+
+Meteor.publish("facebookEmail", function() { 
+	return Meteor.users.find(
+		{_id: this.userId}, 
+		{fields: {'services.facebook.email': 1}
+	}); 
+});

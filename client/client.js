@@ -2,6 +2,7 @@ Meteor.subscribe('posts');
 Meteor.subscribe('translations');
 Meteor.subscribe('words');
 Meteor.subscribe('readinglists');
+Meteor.subscribe('facebookEmail');
 
 Template.todos.helpers({
   'todo': function(){

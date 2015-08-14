@@ -20,7 +20,7 @@ Template.user.helpers({
 });
 
 
-Template.accountSettings.helpers({
+Template.settings.helpers({
 
 	// Returns current user
 	'user': function(){
@@ -31,16 +31,19 @@ Template.accountSettings.helpers({
 });
 
 // Update account
-Template.updateAccount.events({
+Template.settings.events({
 
 	'submit form': function(event){
 		event.preventDefault();
 	    var currentUser = Meteor.userId();
 
-		var email = $('[name="email"]').val();
+	    // Get input values
 		var name = $('[name="name"]').val();
+		var startLang = $('[name="startLanguage"]').val();
+		var endLang = $('[name="endLanguage"]').val();
+
 		console.log(name);
-		Meteor.call('updateAccount', name, email, function(error, result){
+		Meteor.call('updateAccount', name, startLang, endLang, function(error, result){
 			if(error){
 				console.log(error);
 			}

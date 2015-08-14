@@ -17,7 +17,9 @@ Router.route('/register', {
 
 Router.route('/learn');
 Router.route('/login');
-Router.route('/accountSettings');
+Router.route('/settings');
+
+
 Router.route('/browse',{
   name: 'browse',
   data: function(){

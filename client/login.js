@@ -29,5 +29,27 @@ Template.login.events({
         
       }
     });
-  }
+  },
+
+  'click #facebook-login': function(event) {
+        Meteor.loginWithFacebook({
+          requestPermissions: ['email']
+        }, function(err, res){
+            if (err) {
+                throw new Meteor.Error("Facebook login failed");
+            } else {
+              console.log(res);
+              Router.go("settings");
+            }
+
+        });
+    },
+ 
+    'click #logout': function(event) {
+        Meteor.logout(function(err){
+            if (err) {
+                throw new Meteor.Error("Logout failed");
+            }
+        })
+    }
 });

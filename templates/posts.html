@@ -134,7 +134,6 @@
         // Close popup when clicking outside
         $(document).bind("click", function(e){
             if( (notButton(e) && outsideBox(e)) || isSubmit(e)){
-                console.log("hereerer");
                 $('#overlay').toggle();
                 $('.popup').toggleClass('active');
                 $(document).unbind("click");
