@@ -2,21 +2,29 @@
 	<div class="reading-wrap">
 	    <h2>{{{titleText}}}</h2>
 
-	    From {{startLang}} To {{endLang}}
 
-
-	    {{#if userself}}
+	    
 	    <div class="right-button">
-	    	<a href="edit/{{post._id}}" class="btn">Edit</a>
-	    	<a class="btn btn-delete delete-post">Delete</a>
+	    	<div class="page">Page: {{page}} / {{totalPages}}</div>
+
+	    	<a href="edit/{{post._id}}" class="lang-info">
+	    		{{startLang}} 
+	    		<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+	    		{{endLang}}
+	    	</a>
+
+	    	{{#if userself}}
+	    		<a href="edit/{{post._id}}" class="btn">Edit</a>
+	    		<a class="btn btn-delete delete-post">Delete</a>
+	    	{{/if}}
 	    </div>
-	    {{/if}}
+	    
 
 	    <div class="reading-text">
 	    	 {{{textAfterLoad}}}
 	    </div>
 
-	    <div class="page">Page: {{page}} Stored: {{post.page}}</div>
+	    
 
 	    <a href="?page={{prev}}" id="prev-page" class="pagination {{prevDisabled}}"><img src="/images/prev.png"></a>
 	    <a href="?page={{next}}" id="next-page" class="pagination {{disableNext}}"><img src="/images/next.png"></a>

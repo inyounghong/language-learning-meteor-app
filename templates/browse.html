@@ -1,5 +1,11 @@
 <template name="browse">
-	<h2>All Texts</h2>
-	<br>
-	{{>posts}}
+	<div class="categories">
+		<div class="small-header">Language</div>
+		{{ > startSelect }}
+	</div>
+	<div class="results">
+		<h2>All Texts</h2>
+		<br>
+		{{>posts}}
+	</div>
 </template>

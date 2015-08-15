@@ -44,8 +44,8 @@ Template.addPost.events({
 
     var postTitle = $('[name=postTitle]').val();
     var postText = $('[name=postText]').val();
-    var startLang = $('[name=startlanguage]').val();
-    var endLang = $('[name=endlanguage]').val();
+    var startLang = $('[name=startLanguage]').val();
+    var endLang = $('[name=endLanguage]').val();
 
       // Make new Post
 
@@ -102,7 +102,9 @@ Template.posts.events({
 
             
         }
-    }
+    },
+
+
 });
 
 Template.postItem.helpers({
@@ -110,6 +112,10 @@ Template.postItem.helpers({
         return Readinglists.find({post: this._id}).count();
     },
 
+    'language': function(){
+        var post = Posts.findOne(this._id);
+        return prettyLang(post.language);
+    },
 
     'sampleText': function(){
         var CHARACTER_LIMIT = 200;
@@ -139,7 +145,20 @@ Template.posts.helpers({
 
         // If browsing all, just return all posts
         if (this.all){
-          return Posts.find({}, {sort: {createdAt: -1}});
+            var data = {}
+
+            // Get lang parameter in url
+            var lang = Router.current().params.query.lang;
+
+            // If no url, use User's start language
+            if (!lang){
+                var user = Meteor.users.findOne(Meteor.userId());
+                lang = user.profile.startLang;
+            }
+            data["language"] = lang;
+            console.log(data);
+
+            return Posts.find(data, {sort: {createdAt: -1}});
         }
 
     },
@@ -273,4 +292,5 @@ function match(userId, postId){
     var post = Posts.findOne(postId);
     return post.createdBy == userId;
 }
+
 

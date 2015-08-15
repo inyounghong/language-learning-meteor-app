@@ -105,7 +105,7 @@ Template.post.events({
         if(confirm){
             Meteor.call('deletePost', id, function(err, res){
                 if (!err){
-                    Router.go('home');
+                    Router.go('bookshelf');
                     Meteor.call('deleteReadingForPost', id);
                 }
                 
@@ -146,17 +146,15 @@ Template.post.helpers({
 
     'startLang': function(){
         var startLang = this.post.language;
-        console.log("rhis post");
-        console.log(this.post);
         Session.set("startLang", startLang);
-        return startLang;
+        return prettyLang(startLang);
     },
 
     'endLang': function(){
         var readingList = Readinglists.findOne({post: this.post._id});
         var endLang = readingList.language;
         Session.set("endLang", endLang);
-        return endLang;
+        return prettyLang(endLang);
     },
 
     'prev': function(){
@@ -179,6 +177,10 @@ Template.post.helpers({
 
     'disableNext': function(){
         return Session.get('disableNext');
+    },
+
+    'totalPages': function(){
+        return Math.ceil(this.post.wordCount / 150);
     },
 
     // Converts text into word divs

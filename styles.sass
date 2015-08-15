@@ -34,6 +34,9 @@ button:hover, button:focus, button:active
 .glyphicon-ok
 	color: $green
 
+.glyphicon-arrow-right
+	color: #888
+
 /* General Decor */
 
 h2
@@ -91,6 +94,10 @@ button
 	position: absolute;
 	top: 38px
 	right: 60px
+
+	.lang-info
+		margin-right: 10px
+		display: inline-block
 
 /* Navigation */
 
@@ -152,6 +159,19 @@ button
 	margin-top: 50px
 	padding: 35px 60px
 
+/* Category
+
+.categories
+	float: left
+	width: 140px
+
+	.small-header
+		+small-caps
+		margin-bottom: 10px
+
+.results
+	margin-left: 190px
+
 /* Profile Details */
 
 .profile-details
@@ -171,7 +191,10 @@ button
 	max-width: 800px
 	margin: 0 auto
 
-#prev-page, #next-page
+	.right-button
+		right: 100px
+
+.pagination
 	position: fixed
 	top: 0
 	height: 100%
@@ -180,7 +203,14 @@ button
 	padding: 25% 10px
 
 	&:hover
-		background: $grey
+		background: #fafafa
+
+	&.disabled
+		img
+			display: none
+
+		&:hover
+			background: none
 
 #prev-page
 	left: 230px
@@ -191,11 +221,13 @@ button
 #temp-container
 	display: none
 
+
 /* Word List */
 
 thead
 	background: $grey
 	border: 1px solid #ddd
+	+small-caps
 
 .filter-wrap
 	padding-top: 20px
@@ -220,6 +252,10 @@ thead
 			background: #eee
 
 /* Reading Words */
+
+h2
+	.word-wrap .word
+		font-size: 24px
 
 .word-wrap
 	display: inline-block
