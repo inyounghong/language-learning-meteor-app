@@ -146,7 +146,7 @@ Template.posts.helpers({
 
     // Returns true if there are no posts by the user.
     'noPost': function(){
-        if (Readinglists.find({createdBy: Meteor.userId()}).count() == 0){
+        if (Readinglists.find({createdBy: Meteor.userId()}).count() == 0 && !this.all){
             return true;
         }
     },
@@ -266,43 +266,7 @@ Template.editPost.helpers({
 });
 
 
-Template.languageSelect.helpers({
-    'setLanguages': function(){
-        console.log("this");
-        console.log(this);
-        console.log(Session.get("postId"));
-        var post = Posts.findOne(Session.get("postId"));
-        Session.set("startLanguage", post.language);
 
-        var readingList = Readinglists.findOne({post: post._id, createdBy: Meteor.userId()});
-        Session.set("endLanguage", readingList.language);
-
-    },
-
-    'enSelectedA': function(){
-        if (Session.get("startLanguage") == "en") return "true";
-    },
-
-    'deSelectedA': function(){
-        if (Session.get("startLanguage") == "de") return "true";
-    },
-
-    'esSelectedA': function(){
-        if (Session.get("startLanguage") == "es") return "true";
-    },
-
-    'enSelectedB': function(){
-        if (Session.get("endLanguage") == "en") return "true";
-    },
-
-    'deSelectedB': function(){
-        if (Session.get("endLanguage") == "de") return "true";
-    },
-
-    'esSelectedB': function(){
-        if (Session.get("endLanguage") == "es") return "true";
-    },
-});
 
 // Returns true if post  is owned by given user id
 function match(userId, postId){

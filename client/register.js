@@ -1,3 +1,5 @@
+// Create new user -> Settings
+
 Template.register.events({
 
     'submit form': function(){
@@ -17,12 +19,34 @@ Template.register.events({
             if(error){
                 console.log(error);
             } else{
-                Router.go("home");
+                Router.go('settings');
             }
         });
 
-        Router.go('home');
+        
+    },
+
+    'click #facebook-login': function(event) {
+      Meteor.loginWithFacebook({
+        requestPermissions: ['email']
+      }, function(err, res){
+          if (err) {
+              throw new Meteor.Error("Facebook login failed");
+          } else {
+            console.log(res);
+            Router.go("settings");
+          }
+
+      });
     },
 
 
 });
+
+Template.home.helpers({
+    'currentuser' : function(){
+        if (Meteor.userId()){
+            return true;
+        }
+    }
+})

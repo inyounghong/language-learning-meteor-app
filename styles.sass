@@ -77,11 +77,12 @@ button
 	padding: 11px 15px
 	color: #fff!important
 	display: inline-block
-	+border-radius(3px)
+	+border-radius(0px)
 	+small-caps
 
 	&.full
 		width: 100%
+		padding: 14px 15px
 
 	&:hover
 		color: #fff
@@ -147,6 +148,10 @@ button
 	font-size: 15px
 	+border-box
 
+.norm-container
+	margin-top: 50px
+	padding: 35px 60px
+
 /* Profile Details */
 
 .profile-details
@@ -195,8 +200,11 @@ thead
 .filter-wrap
 	padding-top: 20px
 
-.filter-select
+.filterSelect
 	display: none
+
+.lang-label
+	padding-top: 10px
 
 .tab-wrap
 	margin-bottom: 20px
@@ -243,15 +251,48 @@ thead
 .login-box
 	max-width: 300px
 
+	&.c
+		margin: 0 auto
+
+#facebook-login
+	background: #3b5998
+
 /* Forms */
+
+.big-label
+	font-size: 20px
+	color: #444
+	font-weight: 400
+
+select
+	border:0!important
+	outline: 1px solid #ccc
+
+.form-control
+	+border-radius(0)
+	padding: 15px
+	height: 45px
 
 form .row
 	margin: 15px -15px
 
-
+.form-space
+	input
+		margin: 10px 0
 
 .form-box
 	max-width: 600px
+
+/* Users */
+
+input.username
+	padding: 5px 20px
+	font-size: 30px
+	text-align: center
+	border: 1px solid #fff
+
+	&:hover
+		border: 1px solid #ddd
 
 /* Posts */
 
@@ -261,6 +302,7 @@ form .row
 	background: $grey
 	margin-top: 20px
 	+small-caps
+
 
 /* Post item */
 
@@ -274,6 +316,7 @@ form .row
 
 	.details
 		font-size: 13px
+		margin-top: 5px
 
 
 .user-image
@@ -360,7 +403,7 @@ ul#trans-info
 
 	.alt
 		display: inline-block
-		width: 130px
+		margin-right: 10px
 
 	.change-translation
 		display: none

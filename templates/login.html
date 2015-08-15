@@ -1,15 +1,24 @@
 <template name="login">
 	{{#if currentUser}}
 	{{ else }}
-		<div class="login-box">
+		<div class="c">
+		<div class="login-box c">
 		    <h2>Login</h2>
-		    <form class="login">
-		        <input class="form-control" type="email" name="email" placeholder="Email">
-		        <input class="form-control" type="password" name="password" placeholder="Password">
-		        <p><input class="btn full" type="submit" value="Login"></p>
-		    </form>
-		</div>
+		    <br>
 
-        <button id="facebook-login" class="btn btn-default"> Login with Facebook</button>
+		    <form class="login form-space">
+		        <input class="form-control" type="email" name="email" placeholder="Email" value="{{email}}" required>
+			    <input class="form-control" type="password" name="password" placeholder="Password" required>
+			    <p><input class="btn full" type="submit" value="Login"></p>
+		    </form>
+
+		    Or<br><br>
+
+		    <div id="facebook-login" class="btn full"> Login with Facebook</div>
+		    <br><br>
+		    <p>
+		    	Or <a href="{{pathFor route='register'}}">create an account</a></p>
+		</div>
+	</div>
     {{/if}}
 </template>

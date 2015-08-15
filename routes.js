@@ -3,7 +3,17 @@ Router.configure({
   loadingTemplate: 'loading'
 });
 
+function mustBeLoggedIn(){
+  if (! Meteor.userId()) {
+    Router.go('login');
+  }
+  this.next();
+}
+
+Router.onBeforeAction(mustBeLoggedIn, {except: ['register', 'home', 'login']});
+
 Router.route('/register', {
+  layoutTemplate: 'notLoggedIn',
   data: function(){
     return {
       formClass: "registerForm",
@@ -12,12 +22,20 @@ Router.route('/register', {
       email: "",
       buttonName: "Create Account"
     }
+  },
+  onBeforeAction: function(){
+    this.next();
   }
 });
 
 Router.route('/learn');
-Router.route('/login');
+Router.route('/login', {
+  layoutTemplate: 'notLoggedIn'
+});
 Router.route('/settings');
+Router.route('/bookshelf', {
+
+});
 
 
 Router.route('/browse',{
@@ -44,7 +62,7 @@ Router.route('/words/learned', {
 Router.route('/', {
   name: 'home',
   template: 'home',
-
+  layoutTemplate: 'notLoggedIn'
 });
 
 // When no id is specified, go to user's own page.
@@ -114,7 +132,6 @@ Router.route('/post/:_id', {
   },
   onAfterAction: function(){
     var page = this.params.query.page;
-    console.log("storing???");
     Meteor.call('updatePostPage', this.params._id, parseInt(page));
   },
   waitOn: function(){

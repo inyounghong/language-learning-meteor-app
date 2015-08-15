@@ -1,11 +1,19 @@
 <template name="register">
-	<div class="login-box">
-	    <h2>{{header}}</h2>
-	    <form class="{{formClass}}">
-	    	<input class="form-control" type="text" name="name" placeholder="Display Name" value="{{name}}" required>
-	        <input class="form-control" type="email" name="email" placeholder="Email" value="{{email}}" required>
-		    <input class="form-control" type="password" name="password" placeholder="Password" required>
-		    <p><input class="btn full" type="submit" value="{{buttonName}}"></p>
-	    </form>
+	<div class="c">
+		<div class="login-box c">
+		    <h2>Create Account</h2>
+		    <br>
+
+		    <form class="form-space">
+		    	<input class="form-control" type="text" name="name" placeholder="Display Name" value="{{name}}" required>
+		        <input class="form-control" type="email" name="email" placeholder="Email" value="{{email}}" required>
+			    <input class="form-control" type="password" name="password" placeholder="Password" required>
+			    <p><input class="btn full" type="submit" value="{{buttonName}}"></p>
+		    </form>
+
+		    Or<br><br>
+
+		    <div id="facebook-login" class="btn full"> Login with Facebook</div>
+		</div>
 	</div>
 </template>

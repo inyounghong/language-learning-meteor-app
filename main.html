@@ -1,7 +1,5 @@
 <template name="main">
 	
-
-	<div id="overlay"></div>
 	{{> navigation }}
 	{{> sidebar }}
 	<div class="main-container">
@@ -12,7 +10,18 @@
 	</div>
 </template>
 
-<template name="home">
+<template name="notLoggedIn">
+	
+	{{> navigation }}
+	<div class="norm-container">
+		
+		{{> yield }}
+	    <!-- <hr />
+	    <p>Footer</p> -->
+	</div>
+</template>
+
+<template name="bookshelf">
 
     <h2>Bookshelf</h2>
     <br>
@@ -25,9 +34,13 @@
     
     {{> posts }}
 
-
 </template>
 
+<template name="home">
+	<h2>Translation App</h2>
+
+	<a href="{{pathFor route='register'}}" class="btn" id="get-started">Get Started</a>
+</template>
 
 
 

@@ -1,19 +1,31 @@
 <template name="user">
-	<h2 class="c">{{profile.name}}</h2>
+	<div class="c">
+		{{#if currentuser}}
+			<h2>{{profile.name}}</h2>
+		{{else}}
+			<input type="text" class="username" value="{{profile.name}}">
+		{{/if}}
+	</div>
 
 	<div class="profile-details c">
 
 		<div class="num-block post-count">
-			<div class="number">{{postCount}}</div>
-			<div class="text">Texts</div>
+			<a href="{{pathFor route='bookshelf'}}">
+				<div class="number">{{postCount}}</div>
+				<div class="text">Texts</div>
+			</a>
 		</div>
 		<div class="num-block learned-words">
-			<div class="number">{{learnedWordCount}}</div>
-			<div class="text">Learned Words</div>
+			<a href="{{pathFor route='learned'}}">
+				<div class="number">{{learnedWordCount}}</div>
+				<div class="text">Learned Words</div>
+			</a>
 		</div>
 		<div class="num-block total-words">
-			<div class="number">{{totalWordCount}}</div>
-			<div class="text">Total Words</div>
+			<a href="{{pathFor route='words'}}">
+				<div class="number">{{totalWordCount}}</div>
+				<div class="text">Total Words</div>
+			</a>
 		</div>
 	</div>
 

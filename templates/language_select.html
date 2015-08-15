@@ -1,0 +1,38 @@
+<template name="langSelect">
+
+    <div class="col-xs-1 lang-label {{filterSelect}}">
+        From
+    </div>
+    <div class="col-xs-4 {{filterSelect}}">
+        {{ > startSelect showAll=true}}
+    </div>
+    <div class="col-xs-1 lang-label {{filterSelect}}">
+        To
+    </div>
+    <div class="col-xs-4 {{filterSelect}}">
+        {{ > endSelect showAll=true}}
+    </div>
+</template>
+
+<template name="startSelect">
+    {{setLanguages}}
+    <select class="form-control" name="startLanguage" id="startLanguage">
+            {{ #if showAll}}
+                <option value="all">All Languages</option>
+            {{/if}}
+            <option value="en" selected="{{enSelected}}">English</option>
+            <option value="de" selected="{{deSelected}}">German</option>
+            <option value="es" selected="{{esSelected}}">Spanish</option>
+        </select>
+</template>
+
+<template name="endSelect">
+    <select class="form-control" name="endLanguage" id="endLanguage">
+            {{ #if showAll}}
+                <option value="all">All Languages</option>
+            {{/if}}
+            <option value="en" selected="{{enSelected}}">English</option>
+            <option value="de" selected="{{deSelected}}">German</option>
+            <option value="es" selected="{{esSelected}}">Spanish</option>
+        </select>
+</template>

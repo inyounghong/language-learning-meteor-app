@@ -1,25 +1,26 @@
 <template name="settings">
 	<h2>Settings</h2>
+	<hr>
 	{{ setLanguageSession}}
-	<form class="{{formClass}}">
-		<div class="row">
-	            <label for="displayName" class="col-xs-4 control-label">Display Name</label>
-	            <div class="col-xs-8">
-					<input class="form-control" id="displayName" type="text" name="name" placeholder="Display Name" value="{{user.profile.name}}" required>
-			</div>
-		</div>
+	<form class="form-box">
 
-		 
-		<div class="row">
-	        <label class="col-xs-4 control-label">Language</label>
-		    {{> languageSelect}}
-		</div>
+        <!-- <label for="displayName" class="ontrol-label">Display Name</label>
+		<input class="form-control" id="displayName" type="text" name="name" placeholder="Display Name" value="{{user.profile.name}}" required> -->
 
-	    <div class="form-group">
-            <div class="col-xs-offset-4 col-xs-8">
-                <button type="submit" class="btn full">Save and Get Started!</button>
-            </div>
-        </div>
+		<br>
+
+	    <label class="control-label big-label">I know</label>
+		{{ > startSelect}}
+
+		<br>
+
+		<label class="control-label big-label">I want to learn</label>
+		{{ > endSelect}}
+
+		<br>
+
+        <button type="submit" class="btn full">Save and Get Started!</button>
+
 	</form>
 
 

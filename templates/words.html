@@ -15,28 +15,8 @@
         <div class="col-xs-2">
             <div class="a" id="addFilter">Filter by Language</div>
         </div>
-        <div class="col-xs-1 filter-select">
-            From
-        </div>
-        <div class="col-xs-3 filter-select">
-            <select class="form-control" name="startLanguage" id="startLanguage">
-                <option value="en">All Languages</option>
-                <option value="en" selected="{{enSelectedA}}">English</option>
-                <option value="de" selected="{{deSelectedA}}">German</option>
-                <option value="es" selected="{{esSelectedA}}">Spanish</option>
-            </select>
-        </div>
-        <div class="col-xs-1 filter-select">
-            To
-        </div>
-        <div class="col-xs-3 filter-select">
-            <select class="form-control" name="endLanguage" id="endLanguage">
-                <option value="en">All Languages</option>
-                <option value="en" selected="{{enSelectedB}}">English</option>
-                <option value="de" selected="{{deSelectedB}}">German</option>
-                <option value="es" selected="{{esSelectedB}}">Spanish</option>
-            </select>
-        </div>
+        
+        {{ > langSelect filterSelect="filterSelect"}}
     </div>
 
     <hr>
@@ -69,7 +49,7 @@
 
     <script>
     $('#addFilter').click(function(){
-        $('.filter-select').toggle();
+        $('.filterSelect').toggle();
     });
     </script>
 </template>

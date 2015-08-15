@@ -16,7 +16,10 @@ Template.user.helpers({
 		return Translations.find({createdBy: userId}).count();
 	},
 
-
+	'currentuser': function(){
+		console.log(this)
+		return (Meteor.userId() == this.id);
+	}
 });
 
 
@@ -39,6 +42,23 @@ Template.settings.helpers({
 });
 
 // Update account
+Template.user.events({
+
+	'blur .username': function(event){
+		event.preventDefault();
+	    var name = $(event.target).val();
+
+		console.log(name);
+		Meteor.call('updateAccountName', name, function(error, result){
+			if(error){
+				console.log(error);
+			}
+			console.log(result);
+		});
+	}
+});
+
+// Update account
 Template.settings.events({
 
 	'submit form': function(event){
@@ -46,17 +66,16 @@ Template.settings.events({
 	    var currentUser = Meteor.userId();
 
 	    // Get input values
-		var name = $('[name="name"]').val();
 		var startLang = $('[name="startLanguage"]').val();
 		var endLang = $('[name="endLanguage"]').val();
 
 		console.log(name);
-		Meteor.call('updateAccount', name, startLang, endLang, function(error, result){
+		Meteor.call('updateAccount', startLang, endLang, function(error, result){
 			if(error){
 				console.log(error);
 			}
 			console.log(result);
-			Router.go('home');
+			Router.go('bookshelf');
 		});
 	}
 });

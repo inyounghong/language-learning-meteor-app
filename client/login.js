@@ -24,7 +24,7 @@ Template.login.events({
       else{
         var currentRoute = Router.current().route.getName();
         if (currentRoute == 'login'){
-          Router.go("home");
+          Router.go("bookshelf");
         }
         
       }
@@ -39,7 +39,7 @@ Template.login.events({
                 throw new Meteor.Error("Facebook login failed");
             } else {
               console.log(res);
-              Router.go("settings");
+              Router.go("bookshelf");
             }
 
         });
