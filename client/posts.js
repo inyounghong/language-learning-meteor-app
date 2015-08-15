@@ -8,6 +8,7 @@ Template.editPost.events({
         var postText = $('[name=postText]').val();
         var startLang = $('[name=startLanguage]').val();
         var endLang = $('[name=endLanguage]').val();
+        var isPrivate = $('.privateCheck').is(':checked'); // boolean
 
         if (startLang == endLang){
             $('#lang-error').text("Languages cannot be the same!");
@@ -17,7 +18,7 @@ Template.editPost.events({
             var post = Posts.findOne(postId);
 
             // Update post
-            Meteor.call('updatePost', this._id, postTitle, postText, startLang, function(error, results){
+            Meteor.call('updatePost', this._id, postTitle, postText, startLang, isPrivate, function(error, results){
                 if(error) {
                     console.log(error.reason);
                 } else {
@@ -50,6 +51,7 @@ Template.addPost.events({
     var postText = $('[name=postText]').val();
     var startLang = $('[name=startLanguage]').val();
     var endLang = $('[name=endLanguage]').val();
+    var isPrivate = $('.privateCheck').is(':checked'); // boolean
 
     if (startLang == endLang){
         $('#lang-error').text("Languages cannot be the same!");
@@ -59,7 +61,7 @@ Template.addPost.events({
 
       // Make new Post
 
-      Meteor.call('createNewPost', postTitle, postText, startLang, function(error, postId){
+      Meteor.call('createNewPost', postTitle, postText, startLang, isPrivate, function(error, postId){
         if(error){
           console.log(error.reason);
         } else {
@@ -122,10 +124,11 @@ Template.postItem.helpers({
         return Readinglists.find({post: this._id}).count();
     },
 
-    'language': function(){
+    'lang': function(){
         var post = Posts.findOne(this._id);
         return prettyLang(post.language);
     },
+
 
     'sampleText': function(){
         var CHARACTER_LIMIT = 200;
@@ -146,6 +149,11 @@ Template.postItem.helpers({
         }
         return text_string;
     },
+
+    'private': function(){
+        var post = Posts.findOne(this._id);
+        return post.privacy;
+    }
 })
 
 
@@ -155,7 +163,9 @@ Template.posts.helpers({
 
         // If browsing all, just return all posts
         if (this.all){
-            var data = {}
+            var data = {
+                privacy: false
+            }
 
             // Get lang parameter in url
             var lang = Router.current().params.query.lang;

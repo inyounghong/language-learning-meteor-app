@@ -1,6 +1,6 @@
 Meteor.methods({
 
-  'createNewPost': function(postTitle, postText, startLang){
+  'createNewPost': function(postTitle, postText, startLang, isPrivate){
     var currentUser = Meteor.userId();
     check(postTitle, String);
     check(postText, String);
@@ -15,7 +15,8 @@ Meteor.methods({
       page: 1,
       createdBy: currentUser,
       language: startLang,
-      createdAt: new Date()
+      createdAt: new Date(),
+      privacy: isPrivate
     }
     if(!currentUser){
       throw new Meteor.Error("not-logged-in", "You aren't logged in");
@@ -23,7 +24,7 @@ Meteor.methods({
     return Posts.insert(data);
   },
 
-  'updatePost': function(postId, postTitle, postText, startLang){
+  'updatePost': function(postId, postTitle, postText, startLang, isPrivate){
     var currentUser = Meteor.userId();
     var data = {
       _id: postId,
@@ -34,7 +35,8 @@ Meteor.methods({
         title: postTitle,
         text: postText,
         wordCount: getWordCount(postText),
-        language: startLang
+        language: startLang,
+        privacy: isPrivate
       }
     });
   },
