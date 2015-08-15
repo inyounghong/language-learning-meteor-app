@@ -9,27 +9,31 @@ Template.editPost.events({
         var startLang = $('[name=startLanguage]').val();
         var endLang = $('[name=endLanguage]').val();
 
-        // Update existing post
-        var postId = this._id;
-        var post = Posts.findOne(postId);
+        if (startLang == endLang){
+            $('#lang-error').text("Languages cannot be the same!");
+        } else{
+            // Update existing post
+            var postId = this._id;
+            var post = Posts.findOne(postId);
 
-        // Update post
-        Meteor.call('updatePost', this._id, postTitle, postText, startLang, function(error, results){
-            if(error) {
-                console.log(error.reason);
-            } else {
+            // Update post
+            Meteor.call('updatePost', this._id, postTitle, postText, startLang, function(error, results){
+                if(error) {
+                    console.log(error.reason);
+                } else {
 
-                // Update reading list with end language
-                Meteor.call('updateReadingListLang', postId, endLang, function(err, res){
-                    if(!err){
-                        console.log("res: " + res);
-                    } else{
-                        console.log(err);
-                    }
-                });
-                Router.go('post', {_id: postId}, {query: 'page=' + post.page});
-            }
-        });
+                    // Update reading list with end language
+                    Meteor.call('updateReadingListLang', postId, endLang, function(err, res){
+                        if(!err){
+                            console.log("res: " + res);
+                        } else{
+                            console.log(err);
+                        }
+                    });
+                    Router.go('post', {_id: postId}, {query: 'page=' + post.page});
+                }
+            });
+        }
         
     }
     
@@ -46,6 +50,12 @@ Template.addPost.events({
     var postText = $('[name=postText]').val();
     var startLang = $('[name=startLanguage]').val();
     var endLang = $('[name=endLanguage]').val();
+
+    if (startLang == endLang){
+        $('#lang-error').text("Languages cannot be the same!");
+    } else{
+
+
 
       // Make new Post
 
@@ -69,7 +79,7 @@ Template.addPost.events({
           });
         }
       });
-
+    }
   }
 });
 

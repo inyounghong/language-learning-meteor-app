@@ -1,7 +1,12 @@
-Template.langSelect.helpers({
-    
+Template.settings.helpers({
 
-    
+    'setLanguageSession': function(){
+        var user = Meteor.users.findOne(Meteor.userId());
+        // Set session variables
+        Session.set("startLanguage", user.profile.startLang);
+        Session.set("endLanguage", user.profile.endLang);
+    },
+
 });
 
 Template.startSelect.events({
