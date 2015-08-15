@@ -37,6 +37,8 @@ Router.route('/bookshelf', {
 
 });
 
+Router.route('/credits');
+
 
 Router.route('/browse',{
   name: 'browse',

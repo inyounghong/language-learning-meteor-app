@@ -178,7 +178,7 @@ Template.posts.helpers({
             data["language"] = lang;
             console.log(data);
 
-            return Posts.find(data, {sort: {createdAt: -1}});
+            return Posts.find(data, {sort: {users: -1}});
         }
 
     },
