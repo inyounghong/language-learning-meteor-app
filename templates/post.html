@@ -27,7 +27,9 @@
 	    		<br><br><br><br>
 	    		<img src="/images/loading.gif">
 	    	</div>
-	    	{{{textAfterLoad}}}
+	    	<div class="text-after">
+	    		{{{textAfterLoad}}}
+	    	</div>
 	    </div>
 
 	    
@@ -38,5 +40,12 @@
 
 	</div>
 
+	<script>
+		$(document).ready(function(){
+			if ($('.text-after').text() != ""){
+				$('.loading-page').html("");
+			}
+		})
+	</script>
 
 </template>
