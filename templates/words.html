@@ -27,7 +27,8 @@
         		<th>Context</th>
         		<th>Translation</th>
 
-        		<th> </th>
+        		<th>{{{knowMessage}}}</th>
+                <th>Delete</th>
         	</tr>
         </thead>
         <tbody>
@@ -37,11 +38,8 @@
 	            	<td><b>{{origWord}}</b></td>
 	            	<td>{{{context}}}</td>
 	                <td>{{translation}}</td>
-	                <td>
-                        <span class="know-translation">{{knowMessage}}</span>
-                        <span class="delete-translation">x</span>
-                        {{tested}}
-                    </td>
+	                <td><span class="glyphicon glyphicon-ok know-translation" aria-hidden="true"></span></td>
+                    <td><span class="glyphicon glyphicon-remove delete-translation" aria-hidden="true"></span></td>
 	            </tr>
 	        {{/each}}
     	</tbody>

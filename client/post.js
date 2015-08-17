@@ -209,8 +209,6 @@ Template.post.helpers({
 
             // Check if <br> should be added
             if (containsLineBreaks(word)){
-                console.log("word contains line");
-
 
                 word = removeLineBreaks(word);
                 word_array = word.split(" ");
@@ -233,6 +231,7 @@ Template.post.helpers({
             
         	
         }
+        $('.loading-page').html("");
         return text_string;
     },
 

@@ -29,9 +29,9 @@ Template.words.helpers({
 
 	'knowMessage': function(){
 		if (this.learned){
-			return "Don't know!";
+			return "Mark as<br>Unknown";
 		} else {
-			return "Know it!";
+			return "Mark as<br>Known";
 		}
 	},
 
@@ -68,7 +68,8 @@ Template.words.events({
 	},
 
 	'click .know-translation':function(event){
-		Meteor.call('updateLearned', $(event.target).text() == "Know it!", this._id);
+		console.log("marking as known");
+		Meteor.call('updateLearned', Router.current().route._path == "/words", this._id);
 	},
 
 	'change #startLanguage': function(event){
