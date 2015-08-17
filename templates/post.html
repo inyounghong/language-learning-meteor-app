@@ -42,11 +42,13 @@
 	<script>
 		$(document).ready(function(){
 			// If the words have been processed, delete loading gif
-			setTimeout(function(){
+			if ($.trim($('.text-after').text()).length === 0){
 				console.log("javascript");
+
+			} else {
+				console.log($.trim($('.text-after').text()));
 				$('.loading-page').html("");
-			}, 100);
-				
+			}
 		})
 	</script>
 

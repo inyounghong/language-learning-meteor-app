@@ -37,9 +37,33 @@
 </template>
 
 <template name="home">
-	<h2>Translation App</h2>
+	<div class="c narrow">
+		<h2>Translation App</h2>
+		<p>Language learning made easier.</p>
 
-	<a href="{{pathFor route='register'}}" class="btn" id="get-started">Get Started</a>
+
+		<div class="section">
+			<h3>Translations To-Go</h3>
+			<p>Translate as you read for a smooth and enjoyable experience.</p>
+			<div class="gif-wrap">
+				<img src="/images/translating1.gif">
+			</div>
+
+			<br><br>
+
+			<h3>Flashcards</h3>
+			<p>Review your words with flashcards. Customize translations on the fly.</p>
+			<div class="gif-wrap">
+				<img src="/images/cards1.gif">
+			</div>
+			
+		</div>
+
+
+		<br><br>
+		<a href="{{pathFor route='register'}}" class="btn" id="get-started">Get Started</a>
+		Or <a href="{{pathFor route='login'}}">Login</a>
+	</div>
 </template>
 
 

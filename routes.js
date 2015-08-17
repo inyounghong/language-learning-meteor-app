@@ -135,6 +135,10 @@ Router.route('/post/:_id', {
   onAfterAction: function(){
     var page = this.params.query.page;
     Meteor.call('updatePostPage', this.params._id, parseInt(page));
+    if (Meteor.userId()){
+      Meteor.call('updateReadingList', this.params._id);
+    }
+    
   },
   waitOn: function(){
     var currentPost = this.params._id;

@@ -67,7 +67,7 @@ Template.post.events({
             if (typeof transObj === 'undefined'){
                 // User does not have a translation, must pull from word data
                 console.log("User does not have own translation. Pulling data from word");
-                translation = wordObj.endLang;
+                translation = wordObj[endLang];
                 console.log(translation);
 
                 // Create translation

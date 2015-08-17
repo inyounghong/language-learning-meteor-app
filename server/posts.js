@@ -102,7 +102,7 @@ Meteor.methods({
 
   'updateReadingList': function(postId){
     var data = {
-      _id: postId,
+      post: postId,
       createdBy: Meteor.userId()
     }
     return Readinglists.update(data, {$set: 
