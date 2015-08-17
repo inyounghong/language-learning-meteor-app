@@ -4,6 +4,8 @@ Meteor.subscribe('words');
 Meteor.subscribe('readinglists');
 Meteor.subscribe('facebookEmail');
 
+document.title="Translation App";
+
 Template.todos.helpers({
   'todo': function(){
     var currentPost = this._id

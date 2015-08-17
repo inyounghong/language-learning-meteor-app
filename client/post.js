@@ -56,10 +56,7 @@ Template.post.events({
                         Meteor.call('createTranslation', wordId, startLang, endLang, translation, context);                   
                     }
 
-                    // Display translation
-                    console.log("Trying to display translation" + translation);
-                    $(event.target).prev().text(translation);
-                    $(event.target).removeClass("unselected").addClass("selected");
+                    displayTranslation($(event.target), translation);
                 }
             });
         } else {
@@ -82,10 +79,7 @@ Template.post.events({
                 translation = transObj.translation;
             }
 
-            // Display translation
-            console.log("Trying to display translation" + translation);
-            $(event.target).prev().text(translation);
-            $(event.target).removeClass("unselected").addClass("selected");
+            displayTranslation($(event.target), translation);
         }
 
 	},
@@ -282,6 +276,13 @@ Template.postItem.helpers({
         return Math.ceil(this.wordCount/150);
     }
 });
+
+function displayTranslation(el, translation){
+    // Display translation
+    console.log("Trying to display translation" + translation);
+    el.prev().text(translation);
+    el.removeClass("unselected").addClass("selected");
+}
 
 // Creates a word element
 function createWordElement(word){
