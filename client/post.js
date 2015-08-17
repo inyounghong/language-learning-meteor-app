@@ -177,6 +177,10 @@ Template.post.helpers({
         return Math.ceil(this.post.wordCount / 150);
     },
 
+    'loadingGif': function(){
+        return '<br><br><br><br><img src="/images/loading.gif">';
+    },
+
     // Converts text into word divs
     'textAfterLoad': function(){
 
@@ -231,8 +235,8 @@ Template.post.helpers({
             
         	
         }
-        $('.loading-page').html("");
-        return text_string;
+        
+        return clearLoadingPage(text_string);
     },
 
     'titleText': function(){
@@ -261,6 +265,12 @@ Template.post.helpers({
 
 });
 
+function clearLoadingPage(string){
+    console.log("clearing loading-page ");
+    $('.loading-page').html(" ");
+
+    return string;
+}
 
 // Individual posts
 Template.postItem.helpers({

@@ -23,6 +23,9 @@
 	    
 
 	    <div class="reading-text">
+	    	<div class="loading-page c">
+	    		{{{loadingGif}}}
+	    	</div>
 	    	<div class="text-after">
 	    		{{{textAfterLoad}}}
 	    	</div>
@@ -38,11 +41,12 @@
 
 	<script>
 		$(document).ready(function(){
-			if ($('.text-after').text() != ""){
+			// If the words have been processed, delete loading gif
+			setTimeout(function(){
+				console.log("javascript");
 				$('.loading-page').html("");
-			} else {
-				$('.loading-page').html("<br><br><br><br><img src='/images/loading.gif'>");
-			}
+			}, 100);
+				
 		})
 	</script>
 
