@@ -159,6 +159,13 @@ Template.postItem.helpers({
 
 Template.posts.helpers({
 
+    'userPosts': function(){
+        if (userPage()){
+            userId = Router.current().params._id;
+            return Posts.find({createdBy: userId});
+        }
+    },
+
     'allPosts': function(){
 
         // If browsing all, just return all posts
@@ -179,12 +186,16 @@ Template.posts.helpers({
             console.log(data);
 
             return Posts.find(data, {sort: {users: -1}});
+        } else if (userPage()){
+            console.log("userpage");
+            return Posts.find(data, {limit: 0});
         }
 
     },
 
     // Returns true if there are no posts by the user.
     'noPost': function(){
+
         if (Readinglists.find({createdBy: Meteor.userId()}).count() == 0 && !this.all){
             return true;
         }
@@ -311,6 +322,11 @@ Template.editPost.helpers({
 function match(userId, postId){
     var post = Posts.findOne(postId);
     return post.createdBy == userId;
+}
+
+// Returns true if page is user page
+function userPage(){
+    return Router.current().route._path == "/user/:_id";
 }
 
 

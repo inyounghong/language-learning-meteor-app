@@ -1,6 +1,15 @@
 <template name="posts">
     
     <ul class="list-group">
+
+        {{# if userPosts}}
+            <br>
+            <div class="panel-header">Texts</div>
+            {{#each userPosts}}
+                {{> postItem}}
+            {{/each}}
+        {{/if}}
+
         {{# if allPosts}}
             {{#each allPosts}}
                 {{> postItem}}

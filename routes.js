@@ -23,14 +23,13 @@ Router.route('/register', {
       buttonName: "Create Account"
     }
   },
-  onBeforeAction: function(){
-    this.next();
-  }
+  onBeforeAction: routeToBookshelf
 });
 
 Router.route('/learn');
 Router.route('/login', {
-  layoutTemplate: 'notLoggedIn'
+  layoutTemplate: 'notLoggedIn',
+  onBeforeAction: routeToBookshelf
 });
 Router.route('/settings');
 Router.route('/bookshelf', {
@@ -154,4 +153,10 @@ function invalidPage(page){
         return true;
     }
     return false;
+}
+
+function routeToBookshelf(){
+  if (Meteor.userId()){
+    Router.go('bookshelf');
+  }
 }
