@@ -23,10 +23,6 @@
 	    
 
 	    <div class="reading-text">
-	    	<div class="loading-page c">
-	    		<br><br><br><br>
-	    		<img src="/images/loading.gif">
-	    	</div>
 	    	<div class="text-after">
 	    		{{{textAfterLoad}}}
 	    	</div>
@@ -44,6 +40,8 @@
 		$(document).ready(function(){
 			if ($('.text-after').text() != ""){
 				$('.loading-page').html("");
+			} else {
+				$('.loading-page').html("<br><br><br><br><img src='/images/loading.gif'>");
 			}
 		})
 	</script>
