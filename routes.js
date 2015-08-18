@@ -159,4 +159,5 @@ function routeToBookshelf(){
   if (Meteor.userId()){
     Router.go('bookshelf');
   }
+  this.next();
 }
