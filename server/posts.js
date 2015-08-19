@@ -41,20 +41,6 @@ Meteor.methods({
     });
   },
 
-  // 'addUserToPost': function(userId, postId){
-  //   var data = {
-  //     _id: postId
-  //   }
-  //   return Posts.update(data, {$push: 
-  //     {
-  //       users: {
-  //         user: userId,
-  //         updatedAt: new Date()
-  //       }
-  //     }
-  //   });
-  // },
-
   // Updated stored page count
   'updatePostPage': function(postId, page){
     var currentUser = Meteor.userId();
