@@ -23,7 +23,7 @@ Router.route('/register', {
       buttonName: "Create Account"
     }
   },
-  onBeforeAction: routeToBookshelf
+  onBeforeAction: routeToSettings
 });
 
 Router.route('/learn');
@@ -36,7 +36,7 @@ Router.route('/bookshelf', {
 
 });
 
-Router.route('/credits');
+Router.route('/about');
 
 
 Router.route('/browse',{
@@ -153,6 +153,13 @@ function invalidPage(page){
         return true;
     }
     return false;
+}
+
+function routeToSettings(){
+  if (Meteor.userId()){
+    Router.go('settings');
+  }
+  this.next();
 }
 
 function routeToBookshelf(){

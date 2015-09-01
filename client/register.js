@@ -19,7 +19,7 @@ Template.register.events({
             if(error){
                 console.log(error);
             } else{
-                Router.go('settings');
+                console.log("going to settings");
             }
         });
 
