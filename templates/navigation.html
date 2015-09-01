@@ -14,11 +14,11 @@
 
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-	    	<ul class="nav navbar-nav">
-	    		<li><a href="{{pathFor route='about'}}">About</a></li>
+	    	<ul class="nav navbar-nav down">
+	    		<li ><a href="{{pathFor route='about'}}">About</a></li>
 	    	</ul>
 
-	      <ul class="nav navbar-nav navbar-right">
+	      <ul class="nav navbar-nav navbar-right down">
 	        {{#if currentUser}}
 	        {{else}}
 	        	<li><a href="{{pathFor route='register'}}">Register</a></li>

@@ -1,5 +1,5 @@
 <template name="about">
-	<div class="narrow">
+	<div class="narrow img_wrap">
 		<h2>About</h2>
 		<p>This purpose of this site is to aid in language learning by making reading and studying foreign texts much easier.</p>
 		<br>
@@ -9,6 +9,45 @@
 		<br>
 
 		<h2>Features</h2>
+		<img src="images/login.png">
+		<ul class="features">
+			<li>Users can register on the site or login through Facebook.</li>
+		</ul>
+
+		<img src="images/bookshelf.png">
+		<ul class="features">
+			<li>Users can upload their own texts to read.</li>
+			<li>All of the user's uploaded texts as well as any other texts the user reads appears in the bookshelf.</li>
+			<li>Texts are sorted by time viewed.</li>
+		</ul>
+
+		<img src="images/reading.png">
+		<ul class="features">
+			<li>Texts are split into pages for easier reading.</li>
+			<li>All words (including the title) can be clicked for a translation.</li>
+		</ul>
+
+		<img src="/images/translating1.gif">
+		<ul class="features">
+			<li>Clicking on a word displays a translation.</li>
+			<li>The Yandex Translation API is used the first time a word is translated to a particular language, and the translation is stored in a database.</li>
+			<li>When a previously translated word is clicked, the translation is pulled from the database, resulting in instant translation.</li>
+		</ul>
+
+		<img src="images/words.png">
+		<ul class="features">
+			<li>Every word translated by a user is displayed in the Words list.</li>
+			<li>Words can be sorted into learned and unlearned words.</li>
+			<li>Words are displayed along with their context.</li>
+			<li>Words can be deleted.</li>
+		</ul>
+
+		<img src="images/flashcards.png">
+		<ul class="features">
+			<li>Flashcards test all of the users unlearned words.</li>
+			<li>Words are displayed along with their context.</li>
+			<li>Translations can be edited straight on the flashcard (AJAX).</li>
+		</ul>
 
 		<br>
 

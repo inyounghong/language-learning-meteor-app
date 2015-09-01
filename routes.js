@@ -10,7 +10,7 @@ function mustBeLoggedIn(){
   this.next();
 }
 
-Router.onBeforeAction(mustBeLoggedIn, {except: ['register', 'home', 'login']});
+Router.onBeforeAction(mustBeLoggedIn, {except: ['register', 'home', 'login', 'about']});
 
 Router.route('/register', {
   layoutTemplate: 'notLoggedIn',
@@ -36,7 +36,9 @@ Router.route('/bookshelf', {
 
 });
 
-Router.route('/about');
+Router.route('/about',{
+  layoutTemplate: 'notLoggedIn',
+});
 
 
 Router.route('/browse',{
