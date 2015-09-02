@@ -43,7 +43,9 @@ Template.post.events({
                                 wordId = res;
                                 // This can't move: No translation exists, so create it
                                 console.log("Creating Translation" + wordId + endLang + translation + context);
-                                Meteor.call('createTranslation', wordId, startLang, endLang, translation, context);
+                                Meteor.call('createTranslation', wordId, startLang, endLang, translation, context, function(err, res){
+                                    displayTranslation($(event.target), translation, res);
+                                });
                             }
                         });                    
                     } else {
@@ -53,10 +55,12 @@ Template.post.events({
                         Meteor.call('addTranslationToWord', wordId, translation, endLang); 
 
                         console.log("Creating Translation" + wordId + endLang + translation + context);
-                        Meteor.call('createTranslation', wordId, startLang, endLang, translation, context);                   
+                        Meteor.call('createTranslation', wordId, startLang, endLang, translation, context, function(err, res){
+                            displayTranslation($(event.target), translation, res);
+                        });                   
                     }
 
-                    displayTranslation($(event.target), translation);
+                    
                 }
             });
         } else {
@@ -72,17 +76,31 @@ Template.post.events({
 
                 // Create translation
                 console.log("Creating Translation" + wordId + endLang + translation + context);
-                Meteor.call('createTranslation', wordId, startLang, endLang, translation, context);
+                Meteor.call('createTranslation', wordId, startLang, endLang, translation, context, function(err, res){
+                    displayTranslation($(event.target), translation, res);
+                });
 
             } else {
                 console.log(transObj);
                 translation = transObj.translation;
+                displayTranslation($(event.target), translation, transObj._id);
             }
 
-            displayTranslation($(event.target), translation);
+            
         }
 
 	},
+
+    // Editing a translation
+    'blur .translation': function(event){
+        // New translation
+        var newTrans = $(event.target).text();
+
+        // Translation id
+        var translation_id = $(event.target).attr('data-id');
+        console.log("changing translation" + translation_id + newTrans);
+        Meteor.call('changeTranslation', translation_id, newTrans);
+    },
 
     // Clicking an already selected words hides the translation
     'click .selected': function(event){
@@ -286,10 +304,17 @@ Template.postItem.helpers({
     }
 });
 
-function displayTranslation(el, translation){
-    // Display translation
+// Displays translation with editable translation box
+function displayTranslation(el, translation, translation_id){
+    console.log("translation_id" + translation_id);
     console.log("Trying to display translation" + translation);
     el.prev().text(translation);
+
+    // Make translation editable
+    el.prev().attr('contenteditable', true);
+
+    // Add translation_id to attr
+    el.prev().attr('data-id', translation_id);
     el.removeClass("unselected").addClass("selected");
 }
 
