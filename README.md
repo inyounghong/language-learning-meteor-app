@@ -1,5 +1,5 @@
 # Translation App
-A translation app made from Meteor.js. View at <a href="http://translationapp.meteor.com">translationapp.meteor.com</a>.
+A translation app made from Meteor.js. Read about the project <a href="http://www.inyoung.me/#!/projects/language-learning"> here</a>.
 
 <h2>Features</h2>
 <ul>
@@ -14,3 +14,8 @@ A translation app made from Meteor.js. View at <a href="http://translationapp.me
 
 <h2>Credits</h2>
 Translation is provided by the Yandex Translation API.
+
+<h2>Screenshots</h2>
+<img src="screenshots/reading.png">
+<img src="screenshots/words.png">
+<img src="screenshots/flashcards.png">
